@@ -1,4 +1,6 @@
 ---
+import '../styles/global.css' 
+
 export interface Props {
 	title: string;
 	description?: string;
@@ -28,7 +30,7 @@ const { title, description = "Sitio web de Salarcon Tech Solutions" } = Astro.pr
 			<slot />
 		</main>
 		
-		<footer>
+		<footer class="geist-mono">
 			<p>&copy; 2024 Salarcon Tech Solutions. Todos los derechos reservados.</p>
 		</footer>
 	</body>

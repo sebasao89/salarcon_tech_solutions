@@ -1,3 +1,16 @@
+@tailwindcss/base;
+@tailwindcss/components;
+@tailwindcss/utilities;
+
+/* Fuentes personalizadas DESPUÉS de Tailwind */
+@font-face {
+  font-family: "Work Sans";
+  src: url("/fonts/WorkSans-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 @font-face {
   font-family: "Geist Mono";
   src: url("/fonts/GeistMono-Regular.ttf") format("truetype");
@@ -6,12 +19,14 @@
   font-display: swap;
 }
 
-@font-face {
-  font-family: "Work Sans";
-  src: url("/fonts/WorkSans-Regular.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
+
+@layer base {
+  :root {
+    --font-family-work-sans: "Work Sans", sans-serif;
+    --font-family-geist-mono: "Geist Mono", monospace;
+    --font-family-sans: "Work Sans", sans-serif;
+    --font-family-mono: "Geist Mono", monospace;
+  }
 }
 
 .geist-mono {

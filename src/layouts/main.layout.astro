@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css' 
+import Navbar from '../components/navbar.astro';
 
 export interface Props {
 	title: string;
@@ -21,9 +22,7 @@ const { title, description = "Sitio web de Salarcon Tech Solutions" } = Astro.pr
 	</head>
 	<body>
 		<header>
-			<nav>
-				<!-- Aquí puedes agregar tu navegación -->
-			</nav>
+			<Navbar />
 		</header>
 		
 		<main>

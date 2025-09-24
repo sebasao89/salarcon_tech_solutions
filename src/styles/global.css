@@ -1,3 +1,11 @@
+:root {
+  --color-primario: #0A4F5A;
+  --color-secundario: #F47F6B;
+  --color-acento: #B3DCD4;
+  --color-dark: #2A2D34;
+  --color-white: #F5F5F3;
+}
+
 @import "tailwindcss";
 
 @font-face {
@@ -29,3 +37,4 @@
   font-weight: 400;
   font-style: normal;
 }
+

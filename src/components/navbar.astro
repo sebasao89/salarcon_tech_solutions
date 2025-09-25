@@ -1,11 +1,290 @@
 ---
-
+// No necesitamos lógica del servidor para este componente
 ---
 
-<nav class="navbar bg-green-500">
-  <ul>
-    <li><a href="/">Home</a></li>
-    <li><a href="/about">About</a></li>
-    <li><a href="/contact">Contact</a></li>
-  </ul>
+<nav class="fixed top-0 left-0 right-0 z-50 bg-dark-500 border-b border-green-500/20 backdrop-blur-sm">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16 md:h-18 lg:h-20">
+      
+      <!-- Logo -->
+      <div class="flex-shrink-0">
+        <a href="/" class="flex items-center hover:opacity-80 transition-opacity duration-300">
+          <img 
+            src="/logo/logo-h-transp.png" 
+            alt="Salarcon Tech Solutions" 
+            class="h-10 sm:h-12 lg:h-14 w-auto object-contain"
+          />
+        </a>
+      </div>
+
+      <!-- Tablet Menu (md to lg) -->
+      <div class="hidden md:flex lg:hidden">
+        <div class="flex items-center space-x-4">
+          <!-- Compact tablet menu with dropdown for all items -->
+          <div class="relative group">
+            <button class="work-sans text-white-500 hover:text-salmon-500 px-4 py-3 text-sm font-medium transition-colors duration-300 border border-green-500/20 rounded-lg hover:border-salmon-500 flex items-center touch-manipulation">
+              MENÚ
+              <svg class="ml-2 h-4 w-4 transition-transform duration-200 group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            
+            <!-- Tablet Dropdown Menu -->
+            <div class="absolute right-0 mt-2 w-72 bg-dark-500 border border-green-500/20 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+              <div class="py-3">
+                <a href="/" class="block px-5 py-3 text-base text-white-500 hover:text-salmon-500 hover:bg-green-500/10 transition-colors duration-200 touch-manipulation">
+                  01 HOME
+                </a>
+                
+                <!-- Services submenu in tablet -->
+                <div class="px-5 py-2">
+                  <div class="text-sm text-salmon-500 font-medium mb-2">02 SERVICES</div>
+                  <div class="pl-4 space-y-1">
+                    <a href="/services/expertise" class="block py-2 text-sm text-white-500/80 hover:text-salmon-500 transition-colors duration-200 touch-manipulation">
+                      → EXPERTISE
+                    </a>
+                    <a href="/services/advantages" class="block py-2 text-sm text-white-500/80 hover:text-salmon-500 transition-colors duration-200 touch-manipulation">
+                      → ADVANTAGES
+                    </a>
+                    <a href="/services/clients" class="block py-2 text-sm text-white-500/80 hover:text-salmon-500 transition-colors duration-200 touch-manipulation">
+                      → CLIENTS
+                    </a>
+                    <a href="/services/concept-art" class="block py-2 text-sm text-white-500/80 hover:text-salmon-500 transition-colors duration-200 touch-manipulation">
+                      → CONCEPT ART
+                    </a>
+                    <a href="/services/3d-production" class="block py-2 text-sm text-white-500/80 hover:text-salmon-500 transition-colors duration-200 touch-manipulation">
+                      → 3D PRODUCTION
+                    </a>
+                    <a href="/services/industrial-design" class="block py-2 text-sm text-white-500/80 hover:text-salmon-500 transition-colors duration-200 touch-manipulation">
+                      → INDUSTRIAL DESIGN
+                    </a>
+                  </div>
+                </div>
+                
+                <a href="/portfolio" class="block px-5 py-3 text-base text-white-500 hover:text-salmon-500 hover:bg-green-500/10 transition-colors duration-200 touch-manipulation">
+                  03 PORTFOLIO
+                </a>
+                <a href="/about" class="block px-5 py-3 text-base text-white-500 hover:text-salmon-500 hover:bg-green-500/10 transition-colors duration-200 touch-manipulation">
+                  04 ABOUT
+                </a>
+                <a href="/contacts" class="block px-5 py-3 text-base text-white-500 hover:text-salmon-500 hover:bg-green-500/10 transition-colors duration-200 touch-manipulation">
+                  05 CONTACTS
+                </a>
+                
+                <!-- CTA in tablet dropdown -->
+                <div class="px-5 pt-3 border-t border-green-500/20 mt-3">
+                  <a href="/contact" class="geist-mono bg-salmon-500 hover:bg-salmon-500/80 text-white-500 block text-center px-6 py-3 text-sm font-medium rounded-lg transition-all duration-300 touch-manipulation">
+                    CALL ME BACK
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Desktop Menu (lg and up) -->
+      <div class="hidden lg:block">
+        <div class="ml-10 flex items-baseline space-x-6 xl:space-x-8">
+          <a href="/" class="work-sans text-white-500 hover:text-salmon-500 px-3 py-2 text-sm font-medium transition-colors duration-300 border-b-2 border-transparent hover:border-salmon-500 touch-manipulation">
+            01 HOME
+          </a>
+          
+          <!-- Services Dropdown for Desktop -->
+          <div class="relative group">
+            <button class="work-sans text-white-500 hover:text-salmon-500 px-3 py-2 text-sm font-medium transition-colors duration-300 border-b-2 border-transparent hover:border-salmon-500 flex items-center touch-manipulation">
+              02 SERVICES
+              <svg class="ml-1 h-4 w-4 transition-transform duration-200 group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            
+            <!-- Desktop Dropdown Menu -->
+            <div class="absolute left-0 mt-2 w-64 bg-dark-500 border border-green-500/20 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+              <div class="py-2">
+                <a href="/services/expertise" class="block px-4 py-2 text-sm text-white-500 hover:text-salmon-500 hover:bg-green-500/10 transition-colors duration-200 touch-manipulation">
+                  → EXPERTISE
+                </a>
+                <a href="/services/advantages" class="block px-4 py-2 text-sm text-white-500 hover:text-salmon-500 hover:bg-green-500/10 transition-colors duration-200 touch-manipulation">
+                  → ADVANTAGES
+                </a>
+                <a href="/services/clients" class="block px-4 py-2 text-sm text-white-500 hover:text-salmon-500 hover:bg-green-500/10 transition-colors duration-200 touch-manipulation">
+                  → CLIENTS
+                </a>
+                <a href="/services/concept-art" class="block px-4 py-2 text-sm text-white-500 hover:text-salmon-500 hover:bg-green-500/10 transition-colors duration-200 touch-manipulation">
+                  → CONCEPT ART
+                </a>
+                <a href="/services/3d-production" class="block px-4 py-2 text-sm text-white-500 hover:text-salmon-500 hover:bg-green-500/10 transition-colors duration-200 touch-manipulation">
+                  → 3D PRODUCTION
+                </a>
+                <a href="/services/industrial-design" class="block px-4 py-2 text-sm text-white-500 hover:text-salmon-500 hover:bg-green-500/10 transition-colors duration-200 touch-manipulation">
+                  → INDUSTRIAL DESIGN
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <a href="/portfolio" class="work-sans text-white-500 hover:text-salmon-500 px-3 py-2 text-sm font-medium transition-colors duration-300 border-b-2 border-transparent hover:border-salmon-500 touch-manipulation">
+            03 PORTFOLIO
+          </a>
+          <a href="/about" class="work-sans text-white-500 hover:text-salmon-500 px-3 py-2 text-sm font-medium transition-colors duration-300 border-b-2 border-transparent hover:border-salmon-500 touch-manipulation">
+            04 ABOUT
+          </a>
+          <a href="/contacts" class="work-sans text-white-500 hover:text-salmon-500 px-3 py-2 text-sm font-medium transition-colors duration-300 border-b-2 border-transparent hover:border-salmon-500 touch-manipulation">
+            05 CONTACTS
+          </a>
+        </div>
+      </div>
+
+      <!-- Call to Action Button (Desktop only) -->
+      <div class="hidden lg:block">
+        <a href="/contact" class="geist-mono bg-salmon-500 hover:bg-salmon-500/80 text-white-500 px-6 py-2 text-sm font-medium rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg touch-manipulation">
+          CALL ME BACK
+        </a>
+      </div>
+
+      <!-- Mobile menu button (small screens only) -->
+      <div class="md:hidden">
+        <button 
+          id="mobile-menu-button"
+          type="button" 
+          class="text-white-500 hover:text-salmon-500 focus:outline-none focus:text-salmon-500 transition-colors duration-300 p-2 touch-manipulation"
+          aria-controls="mobile-menu" 
+          aria-expanded="false"
+        >
+          <span class="sr-only">Abrir menú principal</span>
+          <!-- Hamburger icon -->
+          <svg id="hamburger-icon" class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <!-- Close icon -->
+          <svg id="close-icon" class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="md:hidden hidden bg-dark-500 border-t border-green-500/20">
+    <div class="px-2 pt-2 pb-3 space-y-1">
+      <a href="/" class="work-sans text-white-500 hover:text-salmon-500 block px-3 py-2 text-base font-medium transition-colors duration-300">
+        01 HOME
+      </a>
+      
+      <!-- Mobile Services Section -->
+      <div class="space-y-1">
+        <button id="mobile-services-toggle" class="work-sans text-white-500 hover:text-salmon-500 w-full text-left px-3 py-2 text-base font-medium transition-colors duration-300 flex items-center justify-between">
+          02 SERVICES
+          <svg id="mobile-services-arrow" class="h-4 w-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+        
+        <div id="mobile-services-menu" class="hidden pl-6 space-y-1">
+          <a href="/services/expertise" class="work-sans text-white-500/80 hover:text-salmon-500 block px-3 py-2 text-sm transition-colors duration-300">
+            → EXPERTISE
+          </a>
+          <a href="/services/advantages" class="work-sans text-white-500/80 hover:text-salmon-500 block px-3 py-2 text-sm transition-colors duration-300">
+            → ADVANTAGES
+          </a>
+          <a href="/services/clients" class="work-sans text-white-500/80 hover:text-salmon-500 block px-3 py-2 text-sm transition-colors duration-300">
+            → CLIENTS
+          </a>
+          <a href="/services/concept-art" class="work-sans text-white-500/80 hover:text-salmon-500 block px-3 py-2 text-sm transition-colors duration-300">
+            → CONCEPT ART
+          </a>
+          <a href="/services/3d-production" class="work-sans text-white-500/80 hover:text-salmon-500 block px-3 py-2 text-sm transition-colors duration-300">
+            → 3D PRODUCTION
+          </a>
+          <a href="/services/industrial-design" class="work-sans text-white-500/80 hover:text-salmon-500 block px-3 py-2 text-sm transition-colors duration-300">
+            → INDUSTRIAL DESIGN
+          </a>
+        </div>
+      </div>
+
+      <a href="/portfolio" class="work-sans text-white-500 hover:text-salmon-500 block px-3 py-2 text-base font-medium transition-colors duration-300">
+        03 PORTFOLIO
+      </a>
+      <a href="/about" class="work-sans text-white-500 hover:text-salmon-500 block px-3 py-2 text-base font-medium transition-colors duration-300">
+        04 ABOUT
+      </a>
+      <a href="/contacts" class="work-sans text-white-500 hover:text-salmon-500 block px-3 py-2 text-base font-medium transition-colors duration-300">
+        05 CONTACTS
+      </a>
+      
+      <!-- Mobile CTA -->
+      <div class="pt-4 pb-2">
+        <a href="/contact" class="geist-mono bg-salmon-500 hover:bg-salmon-500/80 text-white-500 block text-center px-6 py-3 text-sm font-medium rounded-lg transition-all duration-300 mx-3">
+          CALL ME BACK
+        </a>
+      </div>
+      
+      <!-- Mobile Collaboration Link -->
+      <div class="pt-2 border-t border-green-500/20 mt-4">
+        <a href="/collaborate" class="work-sans text-blue-500 hover:text-salmon-500 block px-3 py-2 text-sm transition-colors duration-300">
+          → LET'S COLLABORATE
+        </a>
+      </div>
+    </div>
+  </div>
 </nav>
+
+<script>
+  // Mobile menu toggle functionality
+  const mobileMenuButton = document.getElementById('mobile-menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const hamburgerIcon = document.getElementById('hamburger-icon');
+  const closeIcon = document.getElementById('close-icon');
+  
+  // Services submenu toggle for mobile
+  const mobileServicesToggle = document.getElementById('mobile-services-toggle');
+  const mobileServicesMenu = document.getElementById('mobile-services-menu');
+  const mobileServicesArrow = document.getElementById('mobile-services-arrow');
+
+  if (mobileMenuButton && mobileMenu) {
+    mobileMenuButton.addEventListener('click', () => {
+      const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+      
+      // Toggle menu visibility
+      mobileMenu.classList.toggle('hidden');
+      
+      // Toggle icons
+      hamburgerIcon?.classList.toggle('hidden');
+      closeIcon?.classList.toggle('hidden');
+      
+      // Update aria-expanded
+      mobileMenuButton.setAttribute('aria-expanded', (!isExpanded).toString());
+    });
+  }
+
+  if (mobileServicesToggle && mobileServicesMenu) {
+    mobileServicesToggle.addEventListener('click', () => {
+      mobileServicesMenu.classList.toggle('hidden');
+      mobileServicesArrow?.classList.toggle('rotate-180');
+    });
+  }
+
+  // Close mobile menu when clicking on a link
+  const mobileLinks = mobileMenu?.querySelectorAll('a');
+  mobileLinks?.forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu?.classList.add('hidden');
+      hamburgerIcon?.classList.remove('hidden');
+      closeIcon?.classList.add('hidden');
+      mobileMenuButton?.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  // Close mobile menu when clicking outside
+  document.addEventListener('click', (event) => {
+    const target = event.target as Element;
+    if (!target.closest('nav') && !mobileMenu?.classList.contains('hidden')) {
+      mobileMenu?.classList.add('hidden');
+      hamburgerIcon?.classList.remove('hidden');
+      closeIcon?.classList.add('hidden');
+      mobileMenuButton?.setAttribute('aria-expanded', 'false');
+    }
+  });
+</script>

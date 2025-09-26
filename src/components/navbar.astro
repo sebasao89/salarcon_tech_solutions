@@ -62,7 +62,7 @@ const collaborateLink = {
           <img 
             src="/logo/logo-h-transp.png" 
             alt="Salarcon Tech Solutions" 
-            class="h-10 sm:h-12 lg:h-14 w-auto object-contain"
+            class="h-12 sm:h-14 lg:h-16 w-auto object-contain"
           />
         </a>
       </div>
@@ -166,26 +166,24 @@ const collaborateLink = {
         <button 
           id="mobile-menu-button"
           type="button" 
-          class="geist-mono text-white-500 hover:text-salmon-500 focus:outline-none focus:text-salmon-500 transition-colors duration-300 p-2 touch-manipulation"
+          class="geist-mono text-white-500 hover:text-salmon-500 focus:outline-none focus:text-salmon-500 transition-all duration-300 p-2 touch-manipulation hover:bg-green-500/10 rounded-lg hover:scale-105"
           aria-controls="mobile-menu" 
           aria-expanded="false"
         >
           <span class="sr-only">Abrir menú principal</span>
-          <!-- Hamburger icon -->
-          <svg id="hamburger-icon" class="block h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-          <!-- Close icon -->
-          <svg id="close-icon" class="hidden h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
+          <!-- Hamburger icon animado -->
+          <div id="hamburger-container" class="relative w-6 h-6 transform transition-transform duration-300">
+            <span id="hamburger-line-1" class="absolute left-0 top-1 w-6 h-0.5 bg-current transform transition-all duration-300 origin-center"></span>
+            <span id="hamburger-line-2" class="absolute left-0 top-2.5 w-6 h-0.5 bg-current transform transition-all duration-300 origin-center"></span>
+            <span id="hamburger-line-3" class="absolute left-0 top-4 w-6 h-0.5 bg-current transform transition-all duration-300 origin-center"></span>
+          </div>
         </button>
       </div>
     </div>
   </div>
 
   <!-- Mobile menu -->
-  <div id="mobile-menu" class="md:hidden hidden bg-dark-500 border-t border-green-500/20">
+  <div id="mobile-menu" class="md:hidden hidden bg-dark-500 border-t border-green-500/20 transform transition-all duration-300 ease-in-out translate-y-[-10px] opacity-0">
     <div class="px-2 pt-2 pb-3 space-y-1">
       {menuItems.map((item) => (
         item.hasSubmenu ? (
@@ -231,11 +229,13 @@ const collaborateLink = {
 </nav>
 
 <script>
-  // Mobile menu toggle functionality
+  // Mobile menu toggle
   const mobileMenuButton = document.getElementById('mobile-menu-button');
   const mobileMenu = document.getElementById('mobile-menu');
-  const hamburgerIcon = document.getElementById('hamburger-icon');
-  const closeIcon = document.getElementById('close-icon');
+  const hamburgerContainer = document.getElementById('hamburger-container');
+  const hamburgerLine1 = document.getElementById('hamburger-line-1');
+  const hamburgerLine2 = document.getElementById('hamburger-line-2');
+  const hamburgerLine3 = document.getElementById('hamburger-line-3');
   
   // Services submenu toggle for mobile
   const mobileServicesToggle = document.getElementById('mobile-services-toggle');
@@ -251,12 +251,31 @@ const collaborateLink = {
     mobileMenuButton.addEventListener('click', () => {
       const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
       
-      // Toggle menu visibility
-      mobileMenu.classList.toggle('hidden');
-      
-      // Toggle icons
-      hamburgerIcon?.classList.toggle('hidden');
-      closeIcon?.classList.toggle('hidden');
+      if (isExpanded) {
+        // Cerrar menú - animar hacia hamburguesa
+        mobileMenu.classList.add('translate-y-[-10px]', 'opacity-0');
+        setTimeout(() => {
+          mobileMenu.classList.add('hidden');
+        }, 300);
+        
+        // Transformar X a hamburguesa
+        hamburgerLine1?.classList.remove('rotate-45', 'translate-y-1.5');
+        hamburgerLine2?.classList.remove('opacity-0');
+        hamburgerLine3?.classList.remove('-rotate-45', '-translate-y-1.5');
+        hamburgerContainer?.classList.remove('rotate-180');
+      } else {
+        // Abrir menú - animar hacia X
+        mobileMenu.classList.remove('hidden');
+        setTimeout(() => {
+          mobileMenu.classList.remove('translate-y-[-10px]', 'opacity-0');
+        }, 10);
+        
+        // Transformar hamburguesa a X
+        hamburgerLine1?.classList.add('rotate-45', 'translate-y-1.5');
+        hamburgerLine2?.classList.add('opacity-0');
+        hamburgerLine3?.classList.add('-rotate-45', '-translate-y-1.5');
+        hamburgerContainer?.classList.add('rotate-180');
+      }
       
       // Update aria-expanded
       mobileMenuButton.setAttribute('aria-expanded', (!isExpanded).toString());
@@ -278,23 +297,41 @@ const collaborateLink = {
   }
 
   // Close mobile menu when clicking on a link
-  const mobileLinks = mobileMenu?.querySelectorAll('a');
-  mobileLinks?.forEach(link => {
+  const mobileMenuLinks = mobileMenu?.querySelectorAll('a');
+  mobileMenuLinks?.forEach(link => {
     link.addEventListener('click', () => {
-      mobileMenu?.classList.add('hidden');
-      hamburgerIcon?.classList.remove('hidden');
-      closeIcon?.classList.add('hidden');
+      // Animar cierre del menú
+      mobileMenu?.classList.add('translate-y-[-10px]', 'opacity-0');
+      setTimeout(() => {
+        mobileMenu?.classList.add('hidden');
+      }, 300);
+      
+      // Transformar X a hamburguesa
+      hamburgerLine1?.classList.remove('rotate-45', 'translate-y-1.5');
+      hamburgerLine2?.classList.remove('opacity-0');
+      hamburgerLine3?.classList.remove('-rotate-45', '-translate-y-1.5');
+      hamburgerContainer?.classList.remove('rotate-180');
+      
       mobileMenuButton?.setAttribute('aria-expanded', 'false');
     });
   });
 
   // Close mobile menu when clicking outside
   document.addEventListener('click', (event) => {
-    const target = event.target as Element;
-    if (!target.closest('nav') && !mobileMenu?.classList.contains('hidden')) {
-      mobileMenu?.classList.add('hidden');
-      hamburgerIcon?.classList.remove('hidden');
-      closeIcon?.classList.add('hidden');
+    const navbar = document.querySelector('nav');
+    if (navbar && !navbar.contains(event.target as Node)) {
+      // Animar cierre del menú
+      mobileMenu?.classList.add('translate-y-[-10px]', 'opacity-0');
+      setTimeout(() => {
+        mobileMenu?.classList.add('hidden');
+      }, 300);
+      
+      // Transformar X a hamburguesa
+      hamburgerLine1?.classList.remove('rotate-45', 'translate-y-1.5');
+      hamburgerLine2?.classList.remove('opacity-0');
+      hamburgerLine3?.classList.remove('-rotate-45', '-translate-y-1.5');
+      hamburgerContainer?.classList.remove('rotate-180');
+      
       mobileMenuButton?.setAttribute('aria-expanded', 'false');
     }
   });

@@ -1,5 +1,55 @@
 ---
-// No necesitamos lógica del servidor para este componente
+// Props y configuración del navbar
+const menuItems = [
+  { id: '01', label: 'INICIO', href: '/', key: 'home' },
+  { id: '02', label: 'SERVICIOS', href: '/services', key: 'services', hasSubmenu: true },
+  { id: '03', label: 'PORTFOLIO', href: '/portfolio', key: 'portfolio' },
+  { id: '04', label: 'ACERCA DE', href: '/about', key: 'about' },
+  { id: '05', label: 'CONTACTO', href: '/contacts', key: 'contacts' }
+];
+
+const serviceItems = [
+  { 
+    label: 'DESARROLLO WEB Y APLICACIONES WEB', 
+    href: '/services/desarrollo-web',
+    key: 'desarrollo-web'
+  },
+  { 
+    label: 'ASESORÍA EN INFRAESTRUCTURA Y TECNOLOGÍA', 
+    href: '/services/asesoria-infraestructura',
+    key: 'asesoria-infraestructura'
+  },
+  { 
+    label: 'AUTOMATIZACIÓN DE PROCESOS', 
+    href: '/services/automatizacion-procesos',
+    key: 'automatizacion-procesos'
+  },
+  { 
+    label: 'SISTEMAS DE SEGURIDAD Y CÁMARAS', 
+    href: '/services/sistemas-seguridad',
+    key: 'sistemas-seguridad'
+  },
+  { 
+    label: 'DOMÓTICA Y HOGAR INTELIGENTE', 
+    href: '/services/domotica-hogar',
+    key: 'domotica-hogar'
+  },
+  { 
+    label: 'REDES Y CONECTIVIDAD RESIDENCIAL', 
+    href: '/services/redes-conectividad',
+    key: 'redes-conectividad'
+  }
+];
+
+const ctaButton = {
+  label: 'CALL ME BACK',
+  href: '/contact'
+};
+
+const collaborateLink = {
+  label: "LET'S COLLABORATE",
+  href: '/collaborate'
+};
 ---
 
 <nav class="fixed top-0 left-0 right-0 z-50 bg-dark-500 border-b border-green-500/20 backdrop-blur-sm">
@@ -32,49 +82,35 @@
             <!-- Tablet Dropdown Menu -->
             <div class="absolute right-0 mt-2 w-72 bg-dark-500 border border-green-500/20 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
               <div class="py-3">
-                <a href="/" class="geist-mono block px-5 py-3 text-base text-white-500 hover:text-salmon-500 hover:bg-green-500/10 transition-colors duration-200 touch-manipulation">
-                  01 HOME
-                </a>
-                
-                <!-- Services submenu in tablet -->
-                <div class="px-5 py-2">
-                  <div class="geist-mono text-sm text-salmon-500 font-medium mb-2">02 SERVICES</div>
-                  <div class="pl-4 space-y-1">
-                    <a href="/services/expertise" class="geist-mono block py-2 text-sm text-white-500/80 hover:text-salmon-500 transition-colors duration-200 touch-manipulation">
-                      → EXPERTISE
+                {menuItems.map((item) => (
+                  item.hasSubmenu ? (
+                    <!-- Services submenu in tablet -->
+                    <div>
+                      <button id="tablet-services-toggle" class="geist-mono text-base text-salmon-500 hover:text-white-500 hover:bg-green-500/10 font-medium w-full text-left flex items-center justify-between px-5 py-3 transition-colors duration-200 touch-manipulation">
+                        {item.id} {item.label}
+                        <svg id="tablet-services-arrow" class="h-4 w-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                      </button>
+                      <div id="tablet-services-menu" class="hidden px-5 pl-9 space-y-1">
+                        {serviceItems.map((service) => (
+                          <a href={service.href} class="geist-mono block py-2 text-sm text-white-500/80 hover:text-salmon-500 transition-colors duration-200 touch-manipulation">
+                            → {service.label}
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  ) : (
+                    <a href={item.href} class="geist-mono block px-5 py-3 text-base text-white-500 hover:text-salmon-500 hover:bg-green-500/10 transition-colors duration-200 touch-manipulation">
+                      {item.id} {item.label}
                     </a>
-                    <a href="/services/advantages" class="geist-mono block py-2 text-sm text-white-500/80 hover:text-salmon-500 transition-colors duration-200 touch-manipulation">
-                      → ADVANTAGES
-                    </a>
-                    <a href="/services/clients" class="geist-mono block py-2 text-sm text-white-500/80 hover:text-salmon-500 transition-colors duration-200 touch-manipulation">
-                      → CLIENTS
-                    </a>
-                    <a href="/services/concept-art" class="geist-mono block py-2 text-sm text-white-500/80 hover:text-salmon-500 transition-colors duration-200 touch-manipulation">
-                      → CONCEPT ART
-                    </a>
-                    <a href="/services/3d-production" class="geist-mono block py-2 text-sm text-white-500/80 hover:text-salmon-500 transition-colors duration-200 touch-manipulation">
-                      → 3D PRODUCTION
-                    </a>
-                    <a href="/services/industrial-design" class="geist-mono block py-2 text-sm text-white-500/80 hover:text-salmon-500 transition-colors duration-200 touch-manipulation">
-                      → INDUSTRIAL DESIGN
-                    </a>
-                  </div>
-                </div>
-                
-                <a href="/portfolio" class="geist-mono block px-5 py-3 text-base text-white-500 hover:text-salmon-500 hover:bg-green-500/10 transition-colors duration-200 touch-manipulation">
-                  03 PORTFOLIO
-                </a>
-                <a href="/about" class="geist-mono block px-5 py-3 text-base text-white-500 hover:text-salmon-500 hover:bg-green-500/10 transition-colors duration-200 touch-manipulation">
-                  04 ABOUT
-                </a>
-                <a href="/contacts" class="geist-mono block px-5 py-3 text-base text-white-500 hover:text-salmon-500 hover:bg-green-500/10 transition-colors duration-200 touch-manipulation">
-                  05 CONTACTS
-                </a>
+                  )
+                ))}
                 
                 <!-- CTA in tablet dropdown -->
                 <div class="px-5 pt-3 border-t border-green-500/20 mt-3">
-                  <a href="/contact" class="geist-mono bg-salmon-500 hover:bg-salmon-500/80 text-white-500 block text-center px-6 py-3 text-sm font-medium rounded-lg transition-all duration-300 touch-manipulation">
-                    CALL ME BACK
+                  <a href={ctaButton.href} class="geist-mono bg-salmon-500 hover:bg-salmon-500/80 text-white-500 block text-center px-6 py-3 text-sm font-medium rounded-lg transition-all duration-300 touch-manipulation">
+                    {ctaButton.label}
                   </a>
                 </div>
               </div>
@@ -86,60 +122,41 @@
       <!-- Desktop Menu (lg and up) -->
       <div class="hidden lg:block">
         <div class="ml-10 flex items-baseline space-x-6 xl:space-x-8">
-          <a href="/" class="geist-mono text-white-500 hover:text-salmon-500 px-3 py-2 text-sm font-medium transition-colors duration-300 border-b-2 border-transparent hover:border-salmon-500 touch-manipulation">
-            01 HOME
-          </a>
-          
-          <!-- Services Dropdown for Desktop -->
-          <div class="relative group">
-            <button class="geist-mono text-white-500 hover:text-salmon-500 px-3 py-2 text-sm font-medium transition-colors duration-300 border-b-2 border-transparent hover:border-salmon-500 flex items-center touch-manipulation">
-              02 SERVICES
-              <svg class="ml-1 h-4 w-4 transition-transform duration-200 group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-              </svg>
-            </button>
-            
-            <!-- Desktop Dropdown Menu -->
-            <div class="absolute left-0 mt-2 w-64 bg-dark-500 border border-green-500/20 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-              <div class="py-2">
-                <a href="/services/expertise" class="block px-4 py-2 text-sm text-white-500 hover:text-salmon-500 hover:bg-green-500/10 transition-colors duration-200 touch-manipulation">
-                  → EXPERTISE
-                </a>
-                <a href="/services/advantages" class="block px-4 py-2 text-sm text-white-500 hover:text-salmon-500 hover:bg-green-500/10 transition-colors duration-200 touch-manipulation">
-                  → ADVANTAGES
-                </a>
-                <a href="/services/clients" class="block px-4 py-2 text-sm text-white-500 hover:text-salmon-500 hover:bg-green-500/10 transition-colors duration-200 touch-manipulation">
-                  → CLIENTS
-                </a>
-                <a href="/services/concept-art" class="block px-4 py-2 text-sm text-white-500 hover:text-salmon-500 hover:bg-green-500/10 transition-colors duration-200 touch-manipulation">
-                  → CONCEPT ART
-                </a>
-                <a href="/services/3d-production" class="block px-4 py-2 text-sm text-white-500 hover:text-salmon-500 hover:bg-green-500/10 transition-colors duration-200 touch-manipulation">
-                  → 3D PRODUCTION
-                </a>
-                <a href="/services/industrial-design" class="block px-4 py-2 text-sm text-white-500 hover:text-salmon-500 hover:bg-green-500/10 transition-colors duration-200 touch-manipulation">
-                  → INDUSTRIAL DESIGN
-                </a>
+          {menuItems.map((item) => (
+            item.hasSubmenu ? (
+              <!-- Services Dropdown for Desktop -->
+              <div class="relative group">
+                <button class="geist-mono text-white-500 hover:text-salmon-500 px-3 py-2 text-sm font-medium transition-colors duration-300 border-b-2 border-transparent hover:border-salmon-500 flex items-center touch-manipulation">
+                  {item.id} {item.label}
+                  <svg class="ml-1 h-4 w-4 transition-transform duration-200 group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                  </svg>
+                </button>
+                
+                <!-- Desktop Dropdown Menu -->
+                <div class="absolute left-0 mt-2 w-80 bg-dark-500 border border-green-500/20 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                  <div class="py-2">
+                    {serviceItems.map((service) => (
+                      <a href={service.href} class="block px-4 py-2 text-sm text-white-500 hover:text-salmon-500 hover:bg-green-500/10 transition-colors duration-200 touch-manipulation">
+                        → {service.label}
+                      </a>
+                    ))}
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-
-          <a href="/portfolio" class="geist-mono text-white-500 hover:text-salmon-500 px-3 py-2 text-sm font-medium transition-colors duration-300 border-b-2 border-transparent hover:border-salmon-500 touch-manipulation">
-            03 PORTFOLIO
-          </a>
-          <a href="/about" class="geist-mono text-white-500 hover:text-salmon-500 px-3 py-2 text-sm font-medium transition-colors duration-300 border-b-2 border-transparent hover:border-salmon-500 touch-manipulation">
-            04 ABOUT
-          </a>
-          <a href="/contacts" class="geist-mono text-white-500 hover:text-salmon-500 px-3 py-2 text-sm font-medium transition-colors duration-300 border-b-2 border-transparent hover:border-salmon-500 touch-manipulation">
-            05 CONTACTS
-          </a>
+            ) : (
+              <a href={item.href} class="geist-mono text-white-500 hover:text-salmon-500 px-3 py-2 text-sm font-medium transition-colors duration-300 border-b-2 border-transparent hover:border-salmon-500 touch-manipulation">
+                {item.id} {item.label}
+              </a>
+            )
+          ))}
         </div>
       </div>
 
       <!-- Call to Action Button (Desktop only) -->
       <div class="hidden lg:block">
-        <a href="/contact" class="geist-mono bg-salmon-500 hover:bg-salmon-500/80 text-white-500 px-6 py-2 text-sm font-medium rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg touch-manipulation">
-          CALL ME BACK
+        <a href={ctaButton.href} class="geist-mono bg-salmon-500 hover:bg-salmon-500/80 text-white-500 px-6 py-2 text-sm font-medium rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg touch-manipulation">
+          {ctaButton.label}
         </a>
       </div>
 
@@ -169,62 +186,43 @@
   <!-- Mobile menu -->
   <div id="mobile-menu" class="md:hidden hidden bg-dark-500 border-t border-green-500/20">
     <div class="px-2 pt-2 pb-3 space-y-1">
-      <a href="/" class="geist-mono text-white-500 hover:text-salmon-500 block px-3 py-2 text-base font-medium transition-colors duration-300">
-        01 HOME
-      </a>
-      
-      <!-- Mobile Services Section -->
-      <div class="space-y-1">
-        <button id="mobile-services-toggle" class="geist-mono text-white-500 hover:text-salmon-500 w-full text-left px-3 py-2 text-base font-medium transition-colors duration-300 flex items-center justify-between">
-          02 SERVICES
-          <svg id="mobile-services-arrow" class="h-4 w-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-          </svg>
-        </button>
-        
-        <div id="mobile-services-menu" class="hidden pl-6 space-y-1">
-          <a href="/services/expertise" class="geist-mono text-white-500/80 hover:text-salmon-500 block px-3 py-2 text-sm transition-colors duration-300">
-            → EXPERTISE
+      {menuItems.map((item) => (
+        item.hasSubmenu ? (
+          <!-- Mobile Services Section -->
+          <div class="space-y-1">
+            <button id="mobile-services-toggle" class="geist-mono text-white-500 hover:text-salmon-500 w-full text-left px-3 py-2 text-base font-medium transition-colors duration-300 flex items-center justify-between">
+              {item.id} {item.label}
+              <svg id="mobile-services-arrow" class="h-4 w-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            
+            <div id="mobile-services-menu" class="hidden pl-6 space-y-1">
+              {serviceItems.map((service) => (
+                <a href={service.href} class="geist-mono text-white-500/80 hover:text-salmon-500 block px-3 py-2 text-sm transition-colors duration-300">
+                  → {service.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <a href={item.href} class="geist-mono text-white-500 hover:text-salmon-500 block px-3 py-2 text-base font-medium transition-colors duration-300">
+            {item.id} {item.label}
           </a>
-          <a href="/services/advantages" class="geist-mono text-white-500/80 hover:text-salmon-500 block px-3 py-2 text-sm transition-colors duration-300">
-            → ADVANTAGES
-          </a>
-          <a href="/services/clients" class="geist-mono text-white-500/80 hover:text-salmon-500 block px-3 py-2 text-sm transition-colors duration-300">
-            → CLIENTS
-          </a>
-          <a href="/services/concept-art" class="geist-mono text-white-500/80 hover:text-salmon-500 block px-3 py-2 text-sm transition-colors duration-300">
-            → CONCEPT ART
-          </a>
-          <a href="/services/3d-production" class="geist-mono text-white-500/80 hover:text-salmon-500 block px-3 py-2 text-sm transition-colors duration-300">
-            → 3D PRODUCTION
-          </a>
-          <a href="/services/industrial-design" class="geist-mono text-white-500/80 hover:text-salmon-500 block px-3 py-2 text-sm transition-colors duration-300">
-            → INDUSTRIAL DESIGN
-          </a>
-        </div>
-      </div>
-
-      <a href="/portfolio" class="geist-mono text-white-500 hover:text-salmon-500 block px-3 py-2 text-base font-medium transition-colors duration-300">
-        03 PORTFOLIO
-      </a>
-      <a href="/about" class="geist-mono text-white-500 hover:text-salmon-500 block px-3 py-2 text-base font-medium transition-colors duration-300">
-        04 ABOUT
-      </a>
-      <a href="/contacts" class="geist-mono text-white-500 hover:text-salmon-500 block px-3 py-2 text-base font-medium transition-colors duration-300">
-        05 CONTACTS
-      </a>
+        )
+      ))}
       
       <!-- Mobile CTA -->
       <div class="pt-4 pb-2">
-        <a href="/contact" class="geist-mono bg-salmon-500 hover:bg-salmon-500/80 text-white-500 block text-center px-6 py-3 text-sm font-medium rounded-lg transition-all duration-300 mx-3">
-          CALL ME BACK
+        <a href={ctaButton.href} class="geist-mono bg-salmon-500 hover:bg-salmon-500/80 text-white-500 block text-center px-6 py-3 text-sm font-medium rounded-lg transition-all duration-300 mx-3">
+          {ctaButton.label}
         </a>
       </div>
       
       <!-- Mobile Collaboration Link -->
       <div class="pt-2 border-t border-green-500/20 mt-4">
-        <a href="/collaborate" class="geist-mono text-blue-500 hover:text-salmon-500 block px-3 py-2 text-sm transition-colors duration-300">
-          → LET'S COLLABORATE
+        <a href={collaborateLink.href} class="geist-mono text-blue-500 hover:text-salmon-500 block px-3 py-2 text-sm transition-colors duration-300">
+          → {collaborateLink.label}
         </a>
       </div>
     </div>
@@ -242,6 +240,11 @@
   const mobileServicesToggle = document.getElementById('mobile-services-toggle');
   const mobileServicesMenu = document.getElementById('mobile-services-menu');
   const mobileServicesArrow = document.getElementById('mobile-services-arrow');
+
+  // Services submenu toggle for tablet
+  const tabletServicesToggle = document.getElementById('tablet-services-toggle');
+  const tabletServicesMenu = document.getElementById('tablet-services-menu');
+  const tabletServicesArrow = document.getElementById('tablet-services-arrow');
 
   if (mobileMenuButton && mobileMenu) {
     mobileMenuButton.addEventListener('click', () => {
@@ -263,6 +266,13 @@
     mobileServicesToggle.addEventListener('click', () => {
       mobileServicesMenu.classList.toggle('hidden');
       mobileServicesArrow?.classList.toggle('rotate-180');
+    });
+  }
+
+  if (tabletServicesToggle && tabletServicesMenu) {
+    tabletServicesToggle.addEventListener('click', () => {
+      tabletServicesMenu.classList.toggle('hidden');
+      tabletServicesArrow?.classList.toggle('rotate-180');
     });
   }
 

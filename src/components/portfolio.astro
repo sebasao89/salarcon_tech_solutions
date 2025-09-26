@@ -1,4 +1,152 @@
 ---
-
+// Componente Portfolio - Sección Quiénes Somos
 ---
+
+<section class="relative py-20 lg:py-32 bg-white-500 overflow-hidden">
+  <!-- Elementos decorativos de fondo -->
+  <div class="absolute inset-0 z-0">
+    <!-- Patrón sutil -->
+    <div class="absolute inset-0 opacity-5">
+      <div class="absolute inset-0" style="background-image: radial-gradient(circle at 2px 2px, rgba(10,79,90,0.1) 1px, transparent 0); background-size: 40px 40px;"></div>
+    </div>
+    <!-- Formas geométricas decorativas -->
+    <div class="absolute top-20 right-10 w-32 h-32 bg-blue-500/10 rounded-full blur-xl"></div>
+    <div class="absolute bottom-20 left-10 w-24 h-24 bg-salmon-500/10 rounded-full blur-xl"></div>
+  </div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header de la sección -->
+    <div class="text-center mb-16 lg:mb-20">
+      <div class="inline-block mb-6">
+        <span class="geist-mono inline-block px-4 py-2 text-xs text-green-500 bg-green-500/10 border border-green-500/20 rounded-full tracking-wider">
+          NUESTRA HISTORIA
+        </span>
+      </div>
+      <h2 class="work-sans text-3xl sm:text-4xl lg:text-5xl font-bold text-dark-500 mb-6">
+        Quiénes <span class="text-salmon-500">Somos</span>
+      </h2>
+      <div class="w-24 h-1 bg-gradient-to-r from-salmon-500 to-blue-500 mx-auto rounded-full"></div>
+    </div>
+
+    <!-- Grid principal -->
+    <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      
+      <!-- Columna izquierda: Contenido principal -->
+      <div class="space-y-8">
+        <!-- Texto principal -->
+        <div class="space-y-6">
+          <p class="work-sans text-lg lg:text-xl text-dark-500 leading-relaxed">
+            En <span class="font-semibold text-green-500">Salarcon Tech Solutions</span>, transformamos la complejidad tecnológica en soluciones simples y poderosas, tanto para impulsar el crecimiento de tu empresa como para enriquecer la vida en tu hogar.
+          </p>
+          
+          <p class="geist-mono text-base text-dark-500/80 leading-relaxed">
+            Nuestra base es la ingeniería de sistemas y telecomunicaciones, lo que nos permite diseñar, implementar y gestionar proyectos con una precisión y fiabilidad que marcan la diferencia. No solo entregamos tecnología; creamos ecosistemas eficientes, seguros y a tu medida para que puedas enfocarte en lo que realmente importa.
+          </p>
+        </div>
+
+        <!-- Características destacadas -->
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div class="flex items-center space-x-3 p-4 bg-green-500/5 rounded-lg border border-green-500/10">
+            <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+            <span class="geist-mono text-sm text-dark-500 font-medium">Ingeniería de Sistemas</span>
+          </div>
+          <div class="flex items-center space-x-3 p-4 bg-blue-500/5 rounded-lg border border-blue-500/10">
+            <div class="w-3 h-3 bg-blue-500 rounded-full"></div>
+            <span class="geist-mono text-sm text-dark-500 font-medium">Telecomunicaciones</span>
+          </div>
+          <div class="flex items-center space-x-3 p-4 bg-salmon-500/5 rounded-lg border border-salmon-500/10">
+            <div class="w-3 h-3 bg-salmon-500 rounded-full"></div>
+            <span class="geist-mono text-sm text-dark-500 font-medium">Soluciones Empresariales</span>
+          </div>
+          <div class="flex items-center space-x-3 p-4 bg-green-500/5 rounded-lg border border-green-500/10">
+            <div class="w-3 h-3 bg-green-500 rounded-full"></div>
+            <span class="geist-mono text-sm text-dark-500 font-medium">Domótica Avanzada</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Columna derecha: Evolución -->
+      <div class="relative">
+        <!-- Card de evolución -->
+        <div class="relative bg-gradient-to-br from-dark-500 to-green-500 p-8 lg:p-10 rounded-2xl shadow-2xl">
+          <!-- Efectos decorativos -->
+          <div class="absolute top-0 right-0 w-32 h-32 bg-salmon-500/10 rounded-full blur-2xl"></div>
+          <div class="absolute bottom-0 left-0 w-24 h-24 bg-blue-500/10 rounded-full blur-xl"></div>
+          
+          <div class="relative z-10 space-y-6">
+            <!-- Header del card -->
+            <div class="flex items-center space-x-3 mb-6">
+              <div class="w-2 h-2 bg-salmon-500 rounded-full animate-pulse"></div>
+              <h3 class="work-sans text-xl lg:text-2xl font-bold text-white-500">
+                Nuestra Evolución
+              </h3>
+            </div>
+
+            <!-- Contenido -->
+            <div class="space-y-4">
+              <p class="geist-mono text-sm text-blue-500 leading-relaxed">
+                El cambio de <span class="font-semibold text-salmon-500">HogarTouch</span> a <span class="font-semibold text-white-500">Salarcon Tech Solutions</span> marca un hito importante en nuestra historia.
+              </p>
+              
+              <p class="work-sans text-white-500/90 leading-relaxed">
+                Esta transformación refleja nuestro crecimiento y la ampliación de nuestros servicios para abarcar no solo hogares, sino también empresas que buscan optimizar sus procesos mediante la tecnología.
+              </p>
+
+              <!-- Lista de servicios -->
+              <div class="mt-6 space-y-3">
+                <div class="flex items-center space-x-3">
+                  <div class="w-1.5 h-1.5 bg-salmon-500 rounded-full"></div>
+                  <span class="geist-mono text-sm text-white-500/80">Desarrollo web</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                  <div class="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
+                  <span class="geist-mono text-sm text-white-500/80">Consultoría en infraestructura IT</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                  <div class="w-1.5 h-1.5 bg-salmon-500 rounded-full"></div>
+                  <span class="geist-mono text-sm text-white-500/80">Automatización de procesos empresariales</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                  <div class="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
+                  <span class="geist-mono text-sm text-white-500/80">Seguridad y domótica</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Elementos decorativos externos -->
+        <div class="absolute -top-4 -right-4 w-6 h-6 bg-salmon-500/60 rounded-full animate-pulse"></div>
+        <div class="absolute -bottom-4 -left-4 w-4 h-4 bg-blue-500/60 rounded-full animate-pulse" style="animation-delay: 1s;"></div>
+      </div>
+    </div>
+
+    <!-- Línea de tiempo visual (opcional) -->
+    <div class="mt-20 pt-16 border-t border-dark-500/10">
+      <div class="text-center">
+        <div class="inline-flex items-center space-x-4 px-6 py-3 bg-gradient-to-r from-green-500/10 to-salmon-500/10 rounded-full border border-green-500/20">
+          <span class="geist-mono text-xs text-green-500 font-medium tracking-wider">HOGARTOUCH</span>
+          <div class="flex space-x-1">
+            <div class="w-2 h-2 bg-salmon-500 rounded-full animate-pulse"></div>
+            <div class="w-2 h-2 bg-salmon-500/60 rounded-full animate-pulse" style="animation-delay: 0.2s;"></div>
+            <div class="w-2 h-2 bg-salmon-500/40 rounded-full animate-pulse" style="animation-delay: 0.4s;"></div>
+          </div>
+          <span class="geist-mono text-xs text-salmon-500 font-medium tracking-wider">SALARCON TECH SOLUTIONS</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Animaciones personalizadas para elementos decorativos */
+  @keyframes float-slow {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-5px) rotate(2deg); }
+  }
+  
+  .animate-float-slow {
+    animation: float-slow 6s ease-in-out infinite;
+  }
+</style>
 

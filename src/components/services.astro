@@ -1,0 +1,161 @@
+---
+// Componente Services inspirado en el diseño de la imagen
+export interface Props {
+  title?: string;
+  subtitle?: string;
+  services?: Array<{
+    title: string;
+    description: string;
+    category: string;
+    highlight?: string;
+  }>;
+}
+
+const {
+  title = "NUESTROS SERVICIOS",
+  subtitle = "Soluciones tecnológicas integrales para empresas y hogares",
+  services = [
+    {
+      title: "DESARROLLO WEB Y APLICACIONES",
+      description: "Creamos sitios web modernos, aplicaciones web escalables y soluciones digitales personalizadas para impulsar tu presencia online.",
+      category: "Desarrollo Digital",
+      highlight: "Transformamos ideas en experiencias digitales excepcionales."
+    },
+    {
+      title: "ASESORÍA EN INFRAESTRUCTURA",
+      description: "Consultoría especializada en tecnología e infraestructura para optimizar y modernizar los sistemas de tu empresa.",
+      category: "Consultoría Tecnológica",
+      highlight: "Estrategias tecnológicas que impulsan el crecimiento empresarial."
+    },
+    {
+      title: "AUTOMATIZACIÓN DE PROCESOS",
+      description: "Implementamos soluciones de automatización para optimizar workflows, reducir costos y aumentar la eficiencia operativa.",
+      category: "Automatización",
+      highlight: "Eficiencia inteligente que libera el potencial de tu equipo."
+    },
+    {
+      title: "SISTEMAS DE SEGURIDAD",
+      description: "Instalación y configuración de sistemas de videovigilancia, control de acceso y seguridad perimetral avanzada.",
+      category: "Seguridad Tecnológica",
+      highlight: "Protección integral con tecnología de vanguardia."
+    },
+    {
+      title: "DOMÓTICA Y HOGAR INTELIGENTE",
+      description: "Convertimos tu hogar en un espacio inteligente con automatización, control remoto y sistemas integrados de confort.",
+      category: "Hogar Inteligente",
+      highlight: "El futuro del hogar, disponible hoy."
+    },
+    {
+      title: "REDES Y CONECTIVIDAD",
+      description: "Diseño e implementación de redes residenciales y empresariales de alta velocidad, WiFi mesh y conectividad optimizada.",
+      category: "Conectividad",
+      highlight: "Conectividad sin límites para un mundo digital."
+    }
+  ]
+} = Astro.props;
+---
+
+<section class="relative py-20 lg:py-32 bg-dark-500 overflow-hidden">
+  <!-- Fondo con efectos -->
+  <div class="absolute inset-0 z-0">
+    <!-- Gradiente sutil -->
+    <div class="absolute inset-0 bg-gradient-to-br from-dark-500 via-green-500/5 to-dark-500"></div>
+    <!-- Patrón de puntos -->
+    <div class="absolute inset-0 opacity-10">
+      <div class="absolute inset-0" style="background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.1) 1px, transparent 0); background-size: 40px 40px;"></div>
+    </div>
+  </div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header de la sección -->
+    <div class="mb-16 lg:mb-20">
+      <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
+        <!-- Título principal -->
+        <div class="max-w-2xl">
+          <h2 class="work-sans text-3xl sm:text-4xl lg:text-5xl font-bold text-white-500 leading-tight mb-4">
+            {title}
+          </h2>
+          <p class="geist-mono text-lg text-white-500/70 leading-relaxed">
+            {subtitle}
+          </p>
+        </div>
+
+        <!-- Botón MORE -->
+        <div class="flex-shrink-0">
+          <button class="geist-mono group flex items-center gap-3 px-6 py-3 text-white-500/80 hover:text-salmon-500 transition-all duration-300 border border-white-500/20 hover:border-salmon-500/50 rounded-lg backdrop-blur-sm">
+            <span class="text-sm font-medium tracking-wider">MORE</span>
+            <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grid de servicios -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+      {services.map((service, index) => (
+        <div class="group relative">
+          <!-- Tarjeta de servicio -->
+          <div class="relative h-full p-8 bg-gradient-to-br from-white-500/5 to-transparent border border-white-500/10 rounded-2xl backdrop-blur-sm transition-all duration-500 hover:border-salmon-500/30 hover:bg-white-500/10">
+            <!-- Categoría -->
+            <div class="mb-6">
+              <span class="geist-mono inline-block px-3 py-1 text-xs text-blue-500 bg-blue-500/10 border border-blue-500/20 rounded-full tracking-wider">
+                {service.category}
+              </span>
+            </div>
+
+            <!-- Título del servicio -->
+            <h3 class="work-sans text-xl lg:text-2xl font-bold text-white-500 mb-4 leading-tight">
+              {service.title}
+            </h3>
+
+            <!-- Descripción -->
+            <p class="geist-mono text-sm text-white-500/70 leading-relaxed mb-6">
+              {service.description}
+            </p>
+
+            <!-- Highlight/Quote -->
+            {service.highlight && (
+              <div class="pt-4 border-t border-white-500/10">
+                <p class="geist-mono text-sm text-salmon-500 italic leading-relaxed">
+                  "{service.highlight}"
+                </p>
+              </div>
+            )}
+
+            <!-- Efecto hover -->
+            <div class="absolute inset-0 rounded-2xl bg-gradient-to-br from-salmon-500/5 to-blue-500/5 opacity-0 transition-opacity duration-500 group-hover:opacity-100 pointer-events-none"></div>
+          </div>
+
+          <!-- Línea conectora (solo visible en desktop) -->
+          {index < services.length - 1 && (
+            <div class="hidden lg:block absolute top-1/2 -right-6 w-12 h-px bg-gradient-to-r from-white-500/20 to-transparent transform -translate-y-1/2"></div>
+          )}
+        </div>
+      ))}
+    </div>
+
+    <!-- Sección inferior con estadísticas o información adicional -->
+    <div class="mt-20 pt-12 border-t border-white-500/10">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="text-center lg:text-left">
+          <div class="geist-mono text-xs text-blue-500 tracking-wider mb-2">EXPERIENCIA</div>
+          <div class="work-sans text-lg lg:text-xl font-bold text-white-500">+5 años en tecnología</div>
+        </div>
+        <div class="text-center lg:text-left">
+          <div class="geist-mono text-xs text-salmon-500 tracking-wider mb-2">PROYECTOS</div>
+          <div class="work-sans text-lg lg:text-xl font-bold text-white-500">+100 implementaciones</div>
+        </div>
+        <div class="text-center lg:text-left">
+          <div class="geist-mono text-xs text-blue-500 tracking-wider mb-2">SECTORES</div>
+          <div class="work-sans text-lg lg:text-xl font-bold text-white-500">empresarial y residencial</div>
+        </div>
+        <div class="text-center lg:text-left">
+          <div class="geist-mono text-xs text-salmon-500 tracking-wider mb-2">SOPORTE</div>
+          <div class="work-sans text-lg lg:text-xl font-bold text-white-500">24/7 disponibilidad</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

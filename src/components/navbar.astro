@@ -2,10 +2,10 @@
 // Props y configuración del navbar
 const menuItems = [
   { id: '01', label: 'INICIO', href: '/', key: 'home' },
-  { id: '02', label: 'SERVICIOS', href: '/services', key: 'services', hasSubmenu: true },
-  { id: '03', label: 'PORTFOLIO', href: '/portfolio', key: 'portfolio' },
+  { id: '02', label: 'SERVICIOS', href: '#services', key: 'services' },
+  { id: '03', label: 'PORTFOLIO', href: '#portfolio', key: 'portfolio' },
   { id: '04', label: 'ACERCA DE', href: '/about', key: 'about' },
-  { id: '05', label: 'CONTACTO', href: '/contacts', key: 'contacts' }
+  { id: '05', label: 'CONTACTO', href: '#contact', key: 'contacts' }
 ];
 
 const serviceItems = [
@@ -83,28 +83,9 @@ const collaborateLink = {
             <div class="absolute right-0 mt-2 w-72 bg-dark-500 border border-green-500/20 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
               <div class="py-3">
                 {menuItems.map((item) => (
-                  item.hasSubmenu ? (
-                    <!-- Services submenu in tablet -->
-                    <div>
-                      <button id="tablet-services-toggle" class="geist-mono text-base text-salmon-500 hover:text-white-500 hover:bg-green-500/10 font-medium w-full text-left flex items-center justify-between px-5 py-3 transition-colors duration-200 touch-manipulation">
-                        {item.id} {item.label}
-                        <svg id="tablet-services-arrow" class="h-4 w-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                      </button>
-                      <div id="tablet-services-menu" class="hidden px-5 pl-9 space-y-1">
-                        {serviceItems.map((service) => (
-                          <a href={service.href} class="geist-mono block py-2 text-sm text-white-500/80 hover:text-salmon-500 transition-colors duration-200 touch-manipulation">
-                            → {service.label}
-                          </a>
-                        ))}
-                      </div>
-                    </div>
-                  ) : (
-                    <a href={item.href} class="geist-mono block px-5 py-3 text-base text-white-500 hover:text-salmon-500 hover:bg-green-500/10 transition-colors duration-200 touch-manipulation">
-                      {item.id} {item.label}
-                    </a>
-                  )
+                  <a href={item.href} class="geist-mono block px-5 py-3 text-base text-white-500 hover:text-salmon-500 hover:bg-green-500/10 transition-colors duration-200 touch-manipulation">
+                    {item.id} {item.label}
+                  </a>
                 ))}
                 
                 <!-- CTA in tablet dropdown -->
@@ -123,33 +104,9 @@ const collaborateLink = {
       <div class="hidden lg:block">
         <div class="ml-10 flex items-baseline space-x-6 xl:space-x-8">
           {menuItems.map((item) => (
-            item.hasSubmenu ? (
-              <!-- Services Dropdown for Desktop -->
-              <div class="relative group">
-                <button class="geist-mono text-white-500 hover:text-salmon-500 px-3 py-2 text-sm font-medium transition-colors duration-300 border-b-2 border-transparent hover:border-salmon-500 flex items-center touch-manipulation">
-                  {item.id} {item.label}
-                  <svg class="ml-1 h-4 w-4 transition-transform duration-200 group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                  </svg>
-                </button>
-                
-                <!-- Desktop Dropdown Menu -->
-                <div class="absolute left-0 mt-2 w-80 bg-dark-500 border border-green-500/20 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                  <div class="py-2">
-                    {serviceItems.map((service) => (
-                      <a href={service.href} class="flex items-start px-4 py-2 text-sm text-white-500 hover:text-salmon-500 hover:bg-green-500/10 transition-colors duration-200 touch-manipulation">
-                        <span class="text-salmon-500 mr-3 mt-0.5 flex-shrink-0">→</span>
-                        <span class="leading-relaxed">{service.label}</span>
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <a href={item.href} class="geist-mono text-white-500 hover:text-salmon-500 px-3 py-2 text-sm font-medium transition-colors duration-300 border-b-2 border-transparent hover:border-salmon-500 touch-manipulation">
-                {item.id} {item.label}
-              </a>
-            )
+            <a href={item.href} class="geist-mono text-white-500 hover:text-salmon-500 px-3 py-2 text-sm font-medium transition-colors duration-300 border-b-2 border-transparent hover:border-salmon-500 touch-manipulation">
+              {item.id} {item.label}
+            </a>
           ))}
         </div>
       </div>
@@ -186,29 +143,9 @@ const collaborateLink = {
   <div id="mobile-menu" class="md:hidden hidden bg-dark-500 border-t border-green-500/20 transform transition-all duration-300 ease-in-out translate-y-[-10px] opacity-0">
     <div class="px-2 pt-2 pb-3 space-y-1">
       {menuItems.map((item) => (
-        item.hasSubmenu ? (
-          <!-- Mobile Services Section -->
-          <div class="space-y-1">
-            <button id="mobile-services-toggle" class="geist-mono text-white-500 hover:text-salmon-500 w-full text-left px-3 py-2 text-base font-medium transition-colors duration-300 flex items-center justify-between">
-              {item.id} {item.label}
-              <svg id="mobile-services-arrow" class="h-4 w-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-              </svg>
-            </button>
-            
-            <div id="mobile-services-menu" class="hidden pl-6 space-y-1">
-              {serviceItems.map((service) => (
-                <a href={service.href} class="geist-mono text-white-500/80 hover:text-salmon-500 block px-3 py-2 text-sm transition-colors duration-300">
-                  → {service.label}
-                </a>
-              ))}
-            </div>
-          </div>
-        ) : (
-          <a href={item.href} class="geist-mono text-white-500 hover:text-salmon-500 block px-3 py-2 text-base font-medium transition-colors duration-300">
-            {item.id} {item.label}
-          </a>
-        )
+        <a href={item.href} class="geist-mono text-white-500 hover:text-salmon-500 block px-3 py-2 text-base font-medium transition-colors duration-300">
+          {item.id} {item.label}
+        </a>
       ))}
       
       <!-- Mobile CTA -->
@@ -237,15 +174,7 @@ const collaborateLink = {
   const hamburgerLine2 = document.getElementById('hamburger-line-2');
   const hamburgerLine3 = document.getElementById('hamburger-line-3');
   
-  // Services submenu toggle for mobile
-  const mobileServicesToggle = document.getElementById('mobile-services-toggle');
-  const mobileServicesMenu = document.getElementById('mobile-services-menu');
-  const mobileServicesArrow = document.getElementById('mobile-services-arrow');
 
-  // Services submenu toggle for tablet
-  const tabletServicesToggle = document.getElementById('tablet-services-toggle');
-  const tabletServicesMenu = document.getElementById('tablet-services-menu');
-  const tabletServicesArrow = document.getElementById('tablet-services-arrow');
 
   if (mobileMenuButton && mobileMenu) {
     mobileMenuButton.addEventListener('click', () => {
@@ -282,19 +211,7 @@ const collaborateLink = {
     });
   }
 
-  if (mobileServicesToggle && mobileServicesMenu) {
-    mobileServicesToggle.addEventListener('click', () => {
-      mobileServicesMenu.classList.toggle('hidden');
-      mobileServicesArrow?.classList.toggle('rotate-180');
-    });
-  }
 
-  if (tabletServicesToggle && tabletServicesMenu) {
-    tabletServicesToggle.addEventListener('click', () => {
-      tabletServicesMenu.classList.toggle('hidden');
-      tabletServicesArrow?.classList.toggle('rotate-180');
-    });
-  }
 
   // Close mobile menu when clicking on a link
   const mobileMenuLinks = mobileMenu?.querySelectorAll('a');

@@ -12,41 +12,41 @@ export interface Props {
 }
 
 const {
-  title = "NUESTROS SERVICIOS",
+  title = "Nuestros servicios",
   subtitle = "Soluciones tecnológicas integrales para empresas y hogares",
   services = [
     {
-      title: "DESARROLLO WEB Y APLICACIONES",
+      title: "Desarrollo web y aplicaciones",
       description: "Creamos sitios web modernos, aplicaciones web escalables y soluciones digitales personalizadas para impulsar tu presencia online.",
       category: "Desarrollo Digital",
       highlight: "Transformamos ideas en experiencias digitales excepcionales."
     },
     {
-      title: "ASESORÍA EN INFRAESTRUCTURA",
+      title: "Asesoría en infraestructura",
       description: "Consultoría especializada en tecnología e infraestructura para optimizar y modernizar los sistemas de tu empresa.",
       category: "Consultoría Tecnológica",
       highlight: "Estrategias tecnológicas que impulsan el crecimiento empresarial."
     },
     {
-      title: "AUTOMATIZACIÓN DE PROCESOS",
+      title: "Automatización de procesos",
       description: "Implementamos soluciones de automatización para optimizar workflows, reducir costos y aumentar la eficiencia operativa.",
       category: "Automatización",
       highlight: "Eficiencia inteligente que libera el potencial de tu equipo."
     },
     {
-      title: "SISTEMAS DE SEGURIDAD",
+      title: "Sistemas de seguridad",
       description: "Instalación y configuración de sistemas de videovigilancia, control de acceso y seguridad perimetral avanzada.",
       category: "Seguridad Tecnológica",
       highlight: "Protección integral con tecnología de vanguardia."
     },
     {
-      title: "DOMÓTICA Y HOGAR INTELIGENTE",
+      title: "Domótica y hogar inteligente",
       description: "Convertimos tu hogar en un espacio inteligente con automatización, control remoto y sistemas integrados de confort.",
       category: "Hogar Inteligente",
       highlight: "El futuro del hogar, disponible hoy."
     },
     {
-      title: "REDES Y CONECTIVIDAD",
+      title: "Redes y conectividad",
       description: "Diseño e implementación de redes residenciales y empresariales de alta velocidad, WiFi mesh y conectividad optimizada.",
       category: "Conectividad",
       highlight: "Conectividad sin límites para un mundo digital."
@@ -70,14 +70,45 @@ const {
     <!-- Header de la sección -->
     <div class="mb-16 lg:mb-20">
       <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
-        <!-- Título principal -->
-        <div class="max-w-2xl">
-          <h2 class="work-sans text-3xl sm:text-4xl lg:text-5xl font-bold text-white-500 leading-tight mb-4">
-            {title}
-          </h2>
-          <p class="geist-mono text-lg text-white-500/70 leading-relaxed">
-            {subtitle}
-          </p>
+        <!-- Título principal mejorado -->
+        <div class="max-w-2xl relative">
+          <!-- Elemento decorativo superior -->
+          <div class="flex items-center gap-4 mb-6">
+            <div class="w-12 h-px bg-gradient-to-r from-salmon-500 to-blue-500"></div>
+            <span class="geist-mono text-xs text-salmon-500 tracking-[0.2em] uppercase font-medium">
+              Servicios Especializados
+            </span>
+          </div>
+
+          <!-- Título con efectos -->
+          <div class="relative">
+            <!-- Fondo con gradiente sutil -->
+            <div class="absolute -inset-4 bg-gradient-to-r from-green-500/10 via-salmon-500/5 to-blue-500/10 rounded-2xl blur-xl opacity-60"></div>
+            
+            <h2 class="relative work-sans text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight mb-6">
+              <!-- Texto con gradiente -->
+              <span class="bg-gradient-to-r from-white-500 via-white-500 to-white-500/90 bg-clip-text text-transparent">
+                {title}
+              </span>
+              
+              <!-- Efecto de brillo -->
+              <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white-500/20 to-transparent opacity-0 animate-pulse"></div>
+            </h2>
+          </div>
+
+          <!-- Subtítulo mejorado -->
+          <div class="relative">
+            <p class="geist-mono text-lg lg:text-xl text-white-500/80 leading-relaxed max-w-xl">
+              {subtitle}
+            </p>
+            
+            <!-- Línea decorativa inferior -->
+            <div class="mt-6 flex items-center gap-3">
+              <div class="w-8 h-px bg-gradient-to-r from-blue-500 to-transparent"></div>
+              <div class="w-2 h-2 rounded-full bg-salmon-500/60 animate-pulse"></div>
+              <div class="w-16 h-px bg-gradient-to-r from-salmon-500/50 to-transparent"></div>
+            </div>
+          </div>
         </div>
 
         <!-- Botón MORE -->

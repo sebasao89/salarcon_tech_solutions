@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css' 
 import Navbar from '../components/navbar.astro';
+import Copyright from '../components/copyright.astro';
 
 export interface Props {
 	title: string;
@@ -29,8 +30,6 @@ const { title, description = "Sitio web de Salarcon Tech Solutions" } = Astro.pr
 			<slot />
 		</main>
 		
-		<footer class="geist-mono">
-			<p>&copy; 2024 Salarcon Tech Solutions. Todos los derechos reservados.</p>
-		</footer>
+		<Copyright />
 	</body>
 </html>

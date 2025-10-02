@@ -30,6 +30,33 @@ const { title, description = "Sitio web de Salarcon Tech Solutions" } = Astro.pr
 			<slot />
 		</main>
 		
-		<Copyright />
+	<div class="animate-in anim-up delay-375"><Copyright /></div>
+
+	<script>
+	  // IntersectionObserver para revelar elementos al hacer scroll
+	  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	  const revealEls = document.querySelectorAll('[data-reveal]');
+
+	  if (prefersReduced) {
+	    // Si el usuario prefiere menos movimiento, mostrar todo sin animaciones
+	    revealEls.forEach((el) => el.classList.add('revealed'));
+	  } else if ('IntersectionObserver' in window) {
+	    const observer = new IntersectionObserver((entries) => {
+	      entries.forEach((entry) => {
+	        const el = entry.target;
+	        if (entry.isIntersecting) {
+	          el.classList.add('revealed');
+	          // una vez revelado, dejar de observar para evitar reprocesos
+	          observer.unobserve(el);
+	        }
+	      });
+	    }, { root: null, rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
+
+	    revealEls.forEach((el) => observer.observe(el));
+	  } else {
+	    // Fallback si IntersectionObserver no está disponible
+	    revealEls.forEach((el) => el.classList.add('revealed'));
+	  }
+	</script>
 	</body>
 </html>

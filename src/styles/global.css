@@ -43,6 +43,76 @@
   font-style: normal;
 }
 
+/* Animaciones sutiles de entrada para carga inicial */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fade-in-down {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes zoom-in-soft {
+  from { opacity: 0; transform: translateY(8px) scale(0.97); filter: blur(2px); }
+  to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+@layer utilities {
+  .animate-in { 
+    opacity: 0; 
+    animation-duration: 600ms; 
+    animation-fill-mode: both; 
+    animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+
+  .anim-fade { animation-name: fade-in; }
+  .anim-down { animation-name: fade-in-down; }
+  .anim-up { animation-name: fade-in-up; }
+  .anim-zoom { animation-name: zoom-in-soft; }
+
+  /* Pausar animación solo para elementos de scroll hasta ser revelados */
+  [data-reveal].animate-in { animation-play-state: paused; }
+  .revealed.animate-in { animation-play-state: running; }
+
+  /* Delays comunes para escalonar entradas */
+  .delay-75 { animation-delay: 75ms; }
+  .delay-150 { animation-delay: 150ms; }
+  .delay-225 { animation-delay: 225ms; }
+  .delay-300 { animation-delay: 300ms; }
+  .delay-375 { animation-delay: 375ms; }
+  .delay-450 { animation-delay: 450ms; }
+  .delay-600 { animation-delay: 600ms; }
+
+  /* Reveal-on-scroll: estado inicial para elementos con data-reveal */
+  [data-reveal] {
+    opacity: 0;
+    will-change: opacity, transform;
+  }
+  [data-reveal].revealed {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Respeto a accesibilidad: reducir movimiento si el usuario lo prefiere */
+@media (prefers-reduced-motion: reduce) {
+  .animate-in { 
+    animation: none !important; 
+    opacity: 1 !important; 
+    transform: none !important;
+    filter: none !important;
+  }
+  [data-reveal] { opacity: 1 !important; transform: none !important; }
+}
+
 .work-sans {
   font-family: "Work Sans", sans-serif;
   font-optical-sizing: auto;

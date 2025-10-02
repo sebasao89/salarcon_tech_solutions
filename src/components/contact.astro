@@ -1,5 +1,6 @@
 ---
 // Componente Contact con formulario y información de contacto
+import BackToTop from './back-to-top.astro';
 export interface Props {
   title?: string;
   subtitle?: string;
@@ -294,4 +295,6 @@ const {
       </div>
     </div>
   </div>
+  <!-- Botón flotante en la esquina inferior derecha dentro de Contact -->
+  <BackToTop label="Volver al inicio" />
 </section>

@@ -20,7 +20,7 @@ const {
   title = "Contáctanos",
   subtitle = "¿Tienes un proyecto en mente? Hablemos y hagámoslo realidad juntos.",
   phone = "+573117827572",
-  email = "info@salarcontech.com",
+  email = "info@salarcontech.co",
   address = "Chinchiná - Caldas",
   whatsapp = "+573117827572",
   socialLinks = {
@@ -88,7 +88,7 @@ const {
           </div>
 
           <!-- Formulario -->
-          <form class="space-y-6">
+          <form id="contact-form" class="space-y-6">
             <!-- Nombre y Email en grid -->
             <div class="grid sm:grid-cols-2 gap-6">
               <div class="group">
@@ -97,6 +97,7 @@ const {
                 </label>
                 <input 
                   type="text" 
+                  name="fullName"
                   required
                   class="w-full px-4 py-3 bg-white-500/5 border border-white-500/20 rounded-lg text-white-500 placeholder-white-500/50 focus:border-salmon-500/50 focus:bg-white-500/10 focus:outline-none transition-all duration-300"
                   placeholder="Tu nombre completo"
@@ -108,6 +109,7 @@ const {
                 </label>
                 <input 
                   type="email" 
+                  name="email"
                   required
                   class="w-full px-4 py-3 bg-white-500/5 border border-white-500/20 rounded-lg text-white-500 placeholder-white-500/50 focus:border-salmon-500/50 focus:bg-white-500/10 focus:outline-none transition-all duration-300"
                   placeholder="tu@email.com"
@@ -123,6 +125,7 @@ const {
                 </label>
                 <input 
                   type="tel"
+                  name="phone"
                   class="w-full px-4 py-3 bg-white-500/5 border border-white-500/20 rounded-lg text-white-500 placeholder-white-500/50 focus:border-salmon-500/50 focus:bg-white-500/10 focus:outline-none transition-all duration-300"
                   placeholder="+1 (555) 123-4567"
                 >
@@ -131,7 +134,7 @@ const {
                 <label class="geist-mono block text-sm text-white-500/80 mb-2 transition-colors group-focus-within:text-salmon-500">
                   Servicio de interés
                 </label>
-                <select class="w-full px-4 py-3 bg-white-500/5 border border-white-500/20 rounded-lg text-white-500 focus:border-salmon-500/50 focus:bg-white-500/10 focus:outline-none transition-all duration-300 appearance-none cursor-pointer">
+                <select name="service" class="w-full px-4 py-3 bg-white-500/5 border border-white-500/20 rounded-lg text-white-500 focus:border-salmon-500/50 focus:bg-white-500/10 focus:outline-none transition-all duration-300 appearance-none cursor-pointer">
                   <option value="" class="bg-dark-500 text-white-500">Selecciona un servicio</option>
                   <option value="desarrollo-web" class="bg-dark-500 text-white-500">Desarrollo Web</option>
                   <option value="asesoria" class="bg-dark-500 text-white-500">Asesoría en Infraestructura</option>
@@ -150,6 +153,7 @@ const {
               </label>
               <textarea 
                 rows="5"
+                name="message"
                 required
                 class="w-full px-4 py-3 bg-white-500/5 border border-white-500/20 rounded-lg text-white-500 placeholder-white-500/50 focus:border-salmon-500/50 focus:bg-white-500/10 focus:outline-none transition-all duration-300 resize-none"
                 placeholder="Cuéntanos sobre tu proyecto o consulta..."
@@ -168,6 +172,7 @@ const {
                 </svg>
               </span>
             </button>
+            <p id="form-status" class="geist-mono text-sm text-white-500/70"></p>
           </form>
         </div>
       </div>
@@ -297,4 +302,32 @@ const {
   </div>
   <!-- Botón flotante en la esquina inferior derecha dentro de Contact -->
   <BackToTop label="Volver al inicio" />
+
+  <script>
+    const form = document.getElementById('contact-form') as HTMLFormElement | null;
+    const statusEl = document.getElementById('form-status') as HTMLParagraphElement | null;
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!form) return;
+      statusEl && (statusEl.textContent = 'Enviando...');
+      try {
+        const formData = new FormData(form);
+        const payload = Object.fromEntries(formData.entries());
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        const data: any = await res.json().catch(() => ({}));
+        if (res.ok) {
+          statusEl && (statusEl.textContent = 'Mensaje enviado. ¡Gracias! Te contactaremos pronto.');
+          form.reset();
+        } else {
+          statusEl && (statusEl.textContent = data?.error || 'Error al enviar. Intenta nuevamente.');
+        }
+      } catch {
+        statusEl && (statusEl.textContent = 'Error de red. Revisa tu conexión e intenta otra vez.');
+      }
+    });
+  </script>
 </section>

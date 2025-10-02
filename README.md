@@ -1,43 +1,108 @@
-# Astro Starter Kit: Minimal
+# Salarcon Tech Solutions – Frontend (Astro 5 + TailwindCSS 4)
 
-```sh
-npm create astro@latest -- --template minimal
-```
+Proyecto frontend construido con Astro 5 y TailwindCSS 4, con fuentes personalizadas, paleta de colores extendida y animaciones sutiles de entrada y revelado por scroll. Todo el diseño es responsive, mobile-first y accesible.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+**Stack**
+- Astro `^5.x`
+- TailwindCSS `^4.x`
+- Vite (por Astro)
 
-## 🚀 Project Structure
+**Características clave**
+- Fuentes personalizadas: `Work Sans` (primaria) y `Geist Mono` (secundaria) integradas en `src/styles/global.css`.
+- Paleta extendida con `green-500`, `salmon-500`, `blue-500`, `dark-500`, `white-500`.
+- Animaciones utilitarias: `animate-in`, `anim-up`, `anim-down`, `anim-zoom`, delays `delay-75..600`.
+- Sistema de reveal-on-scroll con `IntersectionObserver`: usa `[data-reveal]` + utilidades de animación.
+- Accesibilidad: respeta `prefers-reduced-motion` (sin animaciones si el usuario lo prefiere). 
+- SEO básico: `lang="es"`, `<title>` por props del layout y `<meta name="description">`.
 
-Inside of your Astro project, you'll see the following folders and files:
+## Estructura del proyecto
 
 ```text
 /
 ├── public/
+│   ├── favicon.svg
+│   ├── fonts/
+│   │   ├── GeistMono-Regular.ttf
+│   │   └── WorkSans-Regular.ttf
+│   └── logo/
+│       ├── icon_Favicon.png
+│       ├── img-home.png
+│       ├── logo-h-transp.png
+│       └── logo-h-transp2.png
 ├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+│   ├── components/
+│   │   ├── navbar.astro
+│   │   ├── hero.astro
+│   │   ├── services.astro
+│   │   ├── portfolio.astro
+│   │   ├── contact.astro
+│   │   └── copyright.astro
+│   ├── layouts/
+│   │   └── main.layout.astro
+│   ├── pages/
+│   │   └── index.astro
+│   └── styles/
+│       └── global.css
+├── package.json
+└── astro.config.mjs
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Estilos y fuentes
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+- TailwindCSS 4 se importa en `global.css` con `@import "tailwindcss"` y la paleta se define con `@theme`.
+- Fuentes:
+  - `.work-sans` aplica `Work Sans`.
+  - `.geist-mono` aplica `Geist Mono`.
+- Usa la paleta extendida en clases utilitarias (ej. `text-salmon-500`, `bg-dark-500`).
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Animaciones
 
-## 🧞 Commands
+- Entrada sutil en carga inicial:
+  - `animate-in` + uno de: `anim-up`, `anim-down`, `anim-zoom`.
+  - Delays para cascada: `delay-75`, `delay-150`, `delay-225`, `delay-300`, `delay-375`, `delay-450`, `delay-600`.
+- Reveal-on-scroll:
+  - Añade el atributo `data-reveal` al elemento que quieras revelar.
+  - Las animaciones con `animate-in` quedan pausadas por defecto en `[data-reveal]` y se activan al añadir `.revealed`.
+  - El script global en `main.layout.astro` observa `[data-reveal]` y añade `.revealed` al entrar en viewport.
 
-All commands are run from the root of the project, from a terminal:
+Ejemplo:
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+```astro
+<div data-reveal class="animate-in anim-up delay-225">
+  <!-- Contenido a revelar -->
+</div>
+```
 
-## 👀 Want to learn more?
+Accesibilidad:
+- `@media (prefers-reduced-motion: reduce)` desactiva transformaciones y animaciones.
+- Fallback si `IntersectionObserver` no está disponible: los elementos se muestran (
+  se añade `.revealed`).
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## Componentes principales
+
+- `Navbar`: navegación superior con animaciones sutiles.
+- `Hero`: cabecera con título, descripción, CTA e imagen con decoraciones.
+- `Services`: bloque de servicios con entradas suaves y escalonadas.
+- `Portfolio`: historia/evolución con tarjetas y efectos sutiles.
+- `Contact`: formulario y tarjetas de contacto con cascada de revelado.
+- `Copyright`: footer siempre visible (animación de entrada sutil en carga).
+
+## Scripts de desarrollo
+
+- Instalar dependencias: `npm install`
+- Desarrollo: `npm run dev` (abre `http://localhost:4321`)
+- Build: `npm run build`
+- Preview del build: `npm run preview`
+
+## Buenas prácticas
+
+- Semántico y accesible: usa etiquetas correctas (`section`, `header`, `footer`).
+- Mobile-first: empieza estilos desde `sm` hacia arriba.
+- Evita valores hex manuales; usa la paleta extendida.
+- Reutiliza las utilidades de animación y delays para mantener consistencia.
+
+## Personalización rápida
+
+- Cambia delays (`delay-150`, `delay-225`, etc.) para ajustar el ritmo.
+- Sustituye `anim-up/anim-down/anim-zoom` según el carácter del bloque.
+- Para elementos que deben estar siempre visibles, evita `data-reveal` y usa sólo `animate-in`.

@@ -73,27 +73,48 @@ export const POST: APIRoute = async ({ request, locals }) => {
     }
 
     // Configuración de envío (dry-run primero)
-    const dryRunRaw = (import.meta as any).env?.EMAIL_DRY_RUN ?? process.env.EMAIL_DRY_RUN ?? '';
+    const runtimeEnv = (locals as any)?.runtime?.env;
+    
+    const dryRunRaw =
+      runtimeEnv?.EMAIL_DRY_RUN ??
+      (import.meta as any).env?.EMAIL_DRY_RUN ??
+      process.env.EMAIL_DRY_RUN ??
+      '';
     const isDryRun = String(dryRunRaw).toLowerCase() === 'true';
+    
     if (isDryRun) {
-      // eco mínimo para debug rápido
       console.log('CONTACT dry-run', { fullName, email, phone, service, messageLen: message.length });
-      return new Response(
-        JSON.stringify({ ok: true, dryRun: true }),
-        { status: 200 }
-      );
+      return new Response(JSON.stringify({ ok: true, dryRun: true }), { status: 200 });
     }
-
+    
     // Configuración de Resend (API HTTP)
-    const apiKey = (import.meta as any).env?.RESEND_API_KEY ?? process.env.RESEND_API_KEY;
-    const toEnv = (import.meta as any).env?.CONTACT_TO ?? process.env.CONTACT_TO;
+    const apiKey =
+      runtimeEnv?.RESEND_API_KEY ??
+      (import.meta as any).env?.RESEND_API_KEY ??
+      process.env.RESEND_API_KEY;
+    
+    const toEnv =
+      runtimeEnv?.CONTACT_TO ??
+      (import.meta as any).env?.CONTACT_TO ??
+      process.env.CONTACT_TO;
+    
     const toList = String(toEnv || '')
       .split(',')
       .map((s) => s.trim())
       .filter(Boolean);
-    const fromAddress = (import.meta as any).env?.RESEND_FROM ?? process.env.RESEND_FROM ?? 'onboarding@resend.dev';
-    const fromName = (import.meta as any).env?.SMTP_FROM_NAME ?? process.env.SMTP_FROM_NAME ?? 'Salarcon Tech Contact';
-
+    
+    const fromAddress =
+      runtimeEnv?.RESEND_FROM ??
+      (import.meta as any).env?.RESEND_FROM ??
+      process.env.RESEND_FROM ??
+      'onboarding@resend.dev';
+    
+    const fromName =
+      runtimeEnv?.SMTP_FROM_NAME ??
+      (import.meta as any).env?.SMTP_FROM_NAME ??
+      process.env.SMTP_FROM_NAME ??
+      'Salarcon Tech Contact';
+    
     if (!apiKey) {
       return new Response(JSON.stringify({ error: 'Falta RESEND_API_KEY en variables de entorno.' }), { status: 500 });
     }

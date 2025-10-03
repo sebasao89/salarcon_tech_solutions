@@ -72,16 +72,32 @@ export const POST: APIRoute = async ({ request }) => {
       return new Response(JSON.stringify({ error: 'Teléfono inválido.' }), { status: 400 });
     }
 
+    // Configuración de envío (dry-run primero)
+    const dryRunRaw = (import.meta as any).env?.EMAIL_DRY_RUN ?? process.env.EMAIL_DRY_RUN ?? '';
+    const isDryRun = String(dryRunRaw).toLowerCase() === 'true';
+    if (isDryRun) {
+      // eco mínimo para debug rápido
+      console.log('CONTACT dry-run', { fullName, email, phone, service, messageLen: message.length });
+      return new Response(
+        JSON.stringify({ ok: true, dryRun: true }),
+        { status: 200 }
+      );
+    }
+
     // Configuración de Resend (API HTTP)
-    const apiKey = import.meta.env.RESEND_API_KEY;
-    const to = import.meta.env.CONTACT_TO;
-    const fromAddress = import.meta.env.RESEND_FROM || 'onboarding@resend.dev';
-    const fromName = import.meta.env.SMTP_FROM_NAME || 'Salarcon Tech Contact';
+    const apiKey = (import.meta as any).env?.RESEND_API_KEY ?? process.env.RESEND_API_KEY;
+    const toEnv = (import.meta as any).env?.CONTACT_TO ?? process.env.CONTACT_TO;
+    const toList = String(toEnv || '')
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean);
+    const fromAddress = (import.meta as any).env?.RESEND_FROM ?? process.env.RESEND_FROM ?? 'onboarding@resend.dev';
+    const fromName = (import.meta as any).env?.SMTP_FROM_NAME ?? process.env.SMTP_FROM_NAME ?? 'Salarcon Tech Contact';
 
     if (!apiKey) {
       return new Response(JSON.stringify({ error: 'Falta RESEND_API_KEY en variables de entorno.' }), { status: 500 });
     }
-    if (!to) {
+    if (!toList.length) {
       return new Response(JSON.stringify({ error: 'Configura CONTACT_TO en variables de entorno.' }), { status: 500 });
     }
 
@@ -111,7 +127,7 @@ ${message}`;
       },
       body: JSON.stringify({
         from: `${fromName} <${fromAddress}>`,
-        to,
+        to: toList.length === 1 ? toList[0] : toList,
         subject,
         text,
         html,
@@ -121,11 +137,19 @@ ${message}`;
 
     if (!resendResp.ok) {
       let errMsg = 'Error enviando correo via Resend.';
+      const providerStatus = resendResp.status;
       try {
-        const errJson = await resendResp.json();
-        errMsg = errJson?.error?.message || errMsg;
+        const errText = await resendResp.text();
+        let errJson: any = null;
+        try { errJson = JSON.parse(errText); } catch {}
+        errMsg = (errJson?.error?.message || errJson?.message || errText || errMsg).toString();
+        console.error('Resend error', { status: providerStatus, err: errJson ?? errText });
       } catch {}
-      return new Response(JSON.stringify({ error: errMsg }), { status: 502 });
+      // Propaga el código de estado del proveedor para facilitar el diagnóstico (p.ej. 400, 401)
+      return new Response(
+        JSON.stringify({ error: errMsg, providerStatus }),
+        { status: providerStatus }
+      );
     }
 
     return new Response(JSON.stringify({ ok: true }), { status: 200 });

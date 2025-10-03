@@ -320,10 +320,15 @@ const {
         });
         const data: any = await res.json().catch(() => ({}));
         if (res.ok) {
-          statusEl && (statusEl.textContent = 'Mensaje enviado. ¡Gracias! Te contactaremos pronto.');
+          const isDry = data?.dryRun === true;
+          statusEl && (statusEl.textContent = isDry
+            ? 'Validación correcta (modo prueba).'
+            : 'Mensaje enviado. ¡Gracias! Te contactaremos pronto.'
+          );
           form.reset();
         } else {
-          statusEl && (statusEl.textContent = data?.error || 'Error al enviar. Intenta nuevamente.');
+          const provider = data?.providerStatus ? ` (código: ${data.providerStatus})` : ` (código: ${res.status})`;
+          statusEl && (statusEl.textContent = (data?.error || 'Error al enviar. Intenta nuevamente.') + provider);
         }
       } catch {
         statusEl && (statusEl.textContent = 'Error de red. Revisa tu conexión e intenta otra vez.');

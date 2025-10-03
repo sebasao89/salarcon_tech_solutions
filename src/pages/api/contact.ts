@@ -11,30 +11,66 @@ export const POST: APIRoute = async ({ request }) => {
     let service = '';
     let message = '';
 
+    // Helpers de validación y sanitización
+    const sanitizeText = (input: string) =>
+      String(input || '')
+        .replace(/[\r\n\t]+/g, ' ')
+        .replace(/<[^>]*>/g, '') // quita etiquetas HTML
+        .replace(/[\x00-\x1F\x7F]/g, '') // quita chars de control
+        .trim()
+        .replace(/\s{2,}/g, ' ');
+    const sanitizeEmail = (input: string) => String(input || '').trim();
+    const sanitizePhone = (input: string) => String(input || '').replace(/[^0-9+]/g, '').trim();
+    const isValidEmail = (val: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+    const allowedServices = new Set([
+      'desarrollo-web',
+      'asesoria',
+      'automatizacion',
+      'seguridad',
+      'domotica',
+      'redes',
+    ]);
+
     // Intenta primero JSON (el cliente ahora envía JSON)
     try {
       const json = await request.clone().json();
-      fullName = String((json as any).fullName || '');
-      email = String((json as any).email || '');
-      phone = String((json as any).phone || '');
-      service = String((json as any).service || '');
-      message = String((json as any).message || '');
+      fullName = sanitizeText((json as any).fullName || '');
+      email = sanitizeEmail((json as any).email || '');
+      phone = sanitizePhone((json as any).phone || '');
+      service = String((json as any).service || '').trim();
+      message = sanitizeText((json as any).message || '');
     } catch {}
 
     // Si no hay datos tras intentar JSON, intenta FormData
     if (!fullName && !email && !message) {
       try {
         const fd = await request.formData();
-        fullName = String(fd.get('fullName') || '');
-        email = String(fd.get('email') || '');
-        phone = String(fd.get('phone') || '');
-        service = String(fd.get('service') || '');
-        message = String(fd.get('message') || '');
+        fullName = sanitizeText(String(fd.get('fullName') || ''));
+        email = sanitizeEmail(String(fd.get('email') || ''));
+        phone = sanitizePhone(String(fd.get('phone') || ''));
+        service = String(fd.get('service') || '').trim();
+        message = sanitizeText(String(fd.get('message') || ''));
       } catch {}
     }
 
+    // Validaciones
     if (!fullName || !email || !message) {
       return new Response(JSON.stringify({ error: 'Faltan datos requeridos.' }), { status: 400 });
+    }
+    if (!isValidEmail(email)) {
+      return new Response(JSON.stringify({ error: 'Email inválido.' }), { status: 400 });
+    }
+    if (fullName.length < 2 || fullName.length > 100) {
+      return new Response(JSON.stringify({ error: 'Nombre fuera de límites.' }), { status: 400 });
+    }
+    if (message.length < 10 || message.length > 2000) {
+      return new Response(JSON.stringify({ error: 'Mensaje fuera de límites.' }), { status: 400 });
+    }
+    if (service && !allowedServices.has(service)) {
+      return new Response(JSON.stringify({ error: 'Servicio inválido.' }), { status: 400 });
+    }
+    if (phone && phone.length > 25) {
+      return new Response(JSON.stringify({ error: 'Teléfono inválido.' }), { status: 400 });
     }
 
     const host = import.meta.env.SMTP_HOST || 'smtp.mi.com.co';
@@ -69,8 +105,8 @@ export const POST: APIRoute = async ({ request }) => {
         // En 587 fuerza STARTTLS si no es conexión segura
         requireTLS: !cfg.secure,
         tls: { rejectUnauthorized: tlsRejectUnauthorized },
-        logger: true,
-        debug: true,
+        logger: false,
+        debug: false,
         connectionTimeout: 15_000,
         socketTimeout: 20_000,
       });
@@ -103,12 +139,8 @@ export const POST: APIRoute = async ({ request }) => {
           break outer;
         } catch (ve: any) {
           lastVerifyError = ve;
-          console.error('SMTP verify error with cfg', { ...cfg, authMethod: method }, {
-            message: ve?.message,
-            code: ve?.code,
-            command: ve?.command,
-            response: ve?.response,
-          });
+          // Evitar log detallado de errores de SMTP en producción
+          console.warn('SMTP verify error with cfg', { host: cfg.host, port: cfg.port, secure: cfg.secure, method });
           // intenta siguiente método/cfg
         }
       }
@@ -157,19 +189,9 @@ ${message}`;
 
     return new Response(JSON.stringify({ ok: true }), { status: 200 });
   } catch (err: any) {
-    console.error('Error enviando correo:', {
-      message: err?.message,
-      code: err?.code,
-      command: err?.command,
-      response: err?.response,
-    });
+    console.error('Error enviando correo');
     return new Response(
-      JSON.stringify({
-        error:
-          (err?.response?.toString?.() as string) ||
-          err?.message ||
-          'Error enviando el correo.',
-      }),
+      JSON.stringify({ error: 'Error enviando el correo.' }),
       { status: 500 }
     );
   }

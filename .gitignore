@@ -13,9 +13,20 @@ yarn-error.log*
 pnpm-debug.log*
 
 
-# environment variables
+# environment variables (nunca subir credenciales)
 .env
+.env.*
+!.env.example
 .env.production
+.dev.vars
+
+# Cloudflare Wrangler state
+.wrangler/
+
+# Keys & certificates
+*.pem
+*.key
+*.crt
 
 # macOS-specific files
 .DS_Store

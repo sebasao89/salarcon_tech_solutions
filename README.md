@@ -125,13 +125,21 @@ Accesibilidad:
 - Preview: `npm run preview`
 - Adaptador: `@astrojs/cloudflare` para funciones/SSR (requerido por `src/pages/api/contact.ts`).
 
+### Envío de correo (Resend recomendado)
+- Este proyecto usa Resend (API HTTP) en `src/pages/api/contact.ts`.
+- Variables:
+  - `RESEND_API_KEY`: clave del API (secreta).
+  - `RESEND_FROM`: remitente (por defecto `onboarding@resend.dev`).
+  - `CONTACT_TO`: destino donde se reciben los mensajes.
+- Ventajas: compatible con Cloudflare Workers, sin dependencias de sockets SMTP.
+
 ### Cloudflare Pages
 - Framework preset: Astro
 - Build command: `npm run build`
 - Output directory: `dist`
 - Node Version: `20`
 - Pages Functions habilitadas.
-- Variables de entorno: configurar las anteriores en Pages > Settings > Environment Variables.
+- Variables de entorno: configurar `RESEND_API_KEY`, `RESEND_FROM`, `CONTACT_TO` en Pages > Settings > Environment Variables.
 
 Nota: Cloudflare Workers no soporta conexiones SMTP directas. Para producción, considera usar un proveedor con API HTTP (Resend, SendGrid, Mailgun) en lugar de `nodemailer`.
 

@@ -1,5 +1,4 @@
 import type { APIRoute } from 'astro';
-import nodemailer from 'nodemailer';
 
 export const prerender = false;
 
@@ -73,90 +72,17 @@ export const POST: APIRoute = async ({ request }) => {
       return new Response(JSON.stringify({ error: 'Teléfono inválido.' }), { status: 400 });
     }
 
-    const host = import.meta.env.SMTP_HOST || 'smtp.mi.com.co';
-    const port = Number(import.meta.env.SMTP_PORT || 465);
-    const secure = import.meta.env.SMTP_SECURE !== undefined
-      ? String(import.meta.env.SMTP_SECURE) === 'true'
-      : port === 465; // si no se especifica, inferir por puerto
-    const user = import.meta.env.SMTP_USER;
-    const pass = import.meta.env.SMTP_PASS;
-    const to = import.meta.env.CONTACT_TO || user;
-    const authMethod = import.meta.env.SMTP_AUTH_METHOD; // opcional: 'PLAIN' | 'LOGIN' | 'CRAM-MD5'
-    const tlsRejectUnauthorized = String(import.meta.env.SMTP_TLS_REJECT_UNAUTHORIZED || 'true') === 'true';
-    const fromAddress = import.meta.env.SMTP_FROM || user;
+    // Configuración de Resend (API HTTP)
+    const apiKey = import.meta.env.RESEND_API_KEY;
+    const to = import.meta.env.CONTACT_TO;
+    const fromAddress = import.meta.env.RESEND_FROM || 'onboarding@resend.dev';
     const fromName = import.meta.env.SMTP_FROM_NAME || 'Salarcon Tech Contact';
-    const family = Number(import.meta.env.SMTP_FAMILY || 4); // fuerza IPv4 por defecto
 
-    if (!user || !pass) {
-      return new Response(JSON.stringify({ error: 'Configura SMTP_USER y SMTP_PASS en .env.' }), { status: 500 });
+    if (!apiKey) {
+      return new Response(JSON.stringify({ error: 'Falta RESEND_API_KEY en variables de entorno.' }), { status: 500 });
     }
-
-    const createTransporter = (
-      cfg: { host: string; port: number; secure: boolean },
-      method?: 'PLAIN' | 'LOGIN' | 'CRAM-MD5'
-    ) =>
-      nodemailer.createTransport({
-        host: cfg.host,
-        port: cfg.port,
-        secure: cfg.secure,
-        family,
-        auth: { user, pass },
-        authMethod: method ?? authMethod,
-        // En 587 fuerza STARTTLS si no es conexión segura
-        requireTLS: !cfg.secure,
-        tls: { rejectUnauthorized: tlsRejectUnauthorized },
-        logger: false,
-        debug: false,
-        connectionTimeout: 15_000,
-        socketTimeout: 20_000,
-      });
-
-    const candidates = [
-      { host, port, secure },
-      // Fallback: si el puerto es 465 (SSL), intenta 587 (STARTTLS)
-      { host, port: 587, secure: false },
-      // Fallback inverso: si vienes de 587, intenta 465
-      { host, port: 465, secure: true },
-    ];
-
-    let transporter: nodemailer.Transporter | null = null;
-    let lastVerifyError: any = null;
-    let usedCfg: { host: string; port: number; secure: boolean } | null = null;
-    let usedAuthMethod: 'PLAIN' | 'LOGIN' | 'CRAM-MD5' | undefined = undefined;
-
-    const methodsToTry: Array<'PLAIN' | 'LOGIN' | 'CRAM-MD5'> = authMethod
-      ? [authMethod as 'PLAIN' | 'LOGIN' | 'CRAM-MD5']
-      : ['PLAIN', 'LOGIN', 'CRAM-MD5'];
-
-    outer: for (const cfg of candidates) {
-      for (const method of methodsToTry) {
-        try {
-          const t = createTransporter(cfg, method);
-          await t.verify();
-          transporter = t;
-          usedCfg = cfg;
-          usedAuthMethod = method;
-          break outer;
-        } catch (ve: any) {
-          lastVerifyError = ve;
-          // Evitar log detallado de errores de SMTP en producción
-          console.warn('SMTP verify error with cfg', { host: cfg.host, port: cfg.port, secure: cfg.secure, method });
-          // intenta siguiente método/cfg
-        }
-      }
-    }
-
-    if (!transporter) {
-      return new Response(
-        JSON.stringify({
-          error:
-            `No se pudo verificar la conexión SMTP. ` +
-            (lastVerifyError?.message || 'Revisa host, puerto, secure y credenciales.'),
-          hint:
-            'Si tu servidor requiere AUTH LOGIN, establece SMTP_AUTH_METHOD=LOGIN en .env.',
-        }),
-        { status: 502 }
-      );
+    if (!to) {
+      return new Response(JSON.stringify({ error: 'Configura CONTACT_TO en variables de entorno.' }), { status: 500 });
     }
 
     const subject = `Nuevo mensaje de contacto: ${fullName}`;
@@ -177,15 +103,30 @@ ${message}`;
       <p>${message.replace(/\n/g, '<br/>')}</p>
     `;
 
-    const info = await transporter.sendMail({
-      from: `"${fromName}" <${fromAddress}>`,
-      to,
-      subject,
-      text,
-      html,
-      replyTo: email,
-      envelope: { from: user as string, to },
+    const resendResp = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: `${fromName} <${fromAddress}>`,
+        to,
+        subject,
+        text,
+        html,
+        reply_to: email,
+      }),
     });
+
+    if (!resendResp.ok) {
+      let errMsg = 'Error enviando correo via Resend.';
+      try {
+        const errJson = await resendResp.json();
+        errMsg = errJson?.error?.message || errMsg;
+      } catch {}
+      return new Response(JSON.stringify({ error: errMsg }), { status: 502 });
+    }
 
     return new Response(JSON.stringify({ ok: true }), { status: 200 });
   } catch (err: any) {

@@ -106,3 +106,47 @@ Accesibilidad:
 - Cambia delays (`delay-150`, `delay-225`, etc.) para ajustar el ritmo.
 - Sustituye `anim-up/anim-down/anim-zoom` según el carácter del bloque.
 - Para elementos que deben estar siempre visibles, evita `data-reveal` y usa sólo `animate-in`.
+
+## Entorno
+
+- Copia `.env.example` a `.env` y rellena los valores requeridos.
+- `.env` está ignorado por Git para evitar subir credenciales.
+- Variables usadas por el endpoint de contacto (SMTP):
+  - `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE`, `SMTP_USER`, `SMTP_PASS`
+  - `CONTACT_TO`, `SMTP_FROM`, `SMTP_FROM_NAME`
+  - `SMTP_AUTH_METHOD` (LOGIN, PLAIN, etc.)
+  - `SMTP_TLS_REJECT_UNAUTHORIZED` (true/false)
+  - `SMTP_FAMILY` (4 o 6)
+
+## Build y Deploy
+
+- Desarrollo: `npm run dev`
+- Build: `npm run build`
+- Preview: `npm run preview`
+- Adaptador: `@astrojs/cloudflare` para funciones/SSR (requerido por `src/pages/api/contact.ts`).
+
+### Envío de correo (Resend recomendado)
+- Este proyecto usa Resend (API HTTP) en `src/pages/api/contact.ts`.
+- Variables:
+  - `RESEND_API_KEY`: clave del API (secreta).
+  - `RESEND_FROM`: remitente (por defecto `onboarding@resend.dev`).
+  - `CONTACT_TO`: destino donde se reciben los mensajes.
+- Ventajas: compatible con Cloudflare Workers, sin dependencias de sockets SMTP.
+
+### Cloudflare Pages
+- Framework preset: Astro
+- Build command: `npm run build`
+- Output directory: `dist`
+- Node Version: `20`
+- Pages Functions habilitadas.
+- Variables de entorno: configurar `RESEND_API_KEY`, `RESEND_FROM`, `CONTACT_TO` en Pages > Settings > Environment Variables.
+
+Nota: Cloudflare Workers no soporta conexiones SMTP directas. Para producción, considera usar un proveedor con API HTTP (Resend, SendGrid, Mailgun) en lugar de `nodemailer`.
+
+## Seguridad
+
+- `.gitignore` bloquea `.env`, `.wrangler/` y archivos de claves (`*.pem`, `*.key`, `*.crt`).
+- El endpoint de contacto incluye validación/sanitización de inputs y limita logs sensibles.
+- No exponer credenciales en logs, commits o en el cliente.
+- Recomendada protección anti‑spam con Cloudflare Turnstile en el formulario.
+- Rotar contraseñas SMTP y usar cuentas de servicio.

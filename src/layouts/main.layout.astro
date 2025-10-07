@@ -9,6 +9,9 @@ export interface Props {
 }
 
 const { title, description = "Sitio web de Salarcon Tech Solutions" } = Astro.props;
+const canonicalUrl = Astro.url.href;
+const siteName = "Salarcon Tech Solutions";
+const ogImage = "/logo/img-home.png";
 ---
 
 <!DOCTYPE html>
@@ -20,6 +23,22 @@ const { title, description = "Sitio web de Salarcon Tech Solutions" } = Astro.pr
 		<link rel="icon" type="image/png" href="/logo/icon_Favicon.png" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
+		<link rel="canonical" href={canonicalUrl} />
+		<meta name="robots" content="index,follow" />
+		<meta name="theme-color" content="#111418" />
+
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content={siteName} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonicalUrl} />
+		<meta property="og:image" content={ogImage} />
+		<meta property="og:locale" content="es_CO" />
+
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={ogImage} />
 	</head>
 	<body>
 		<header>
@@ -31,6 +50,16 @@ const { title, description = "Sitio web de Salarcon Tech Solutions" } = Astro.pr
 		</main>
 		
 	<div class="animate-in anim-up delay-375"><Copyright /></div>
+
+	<script type="application/ld+json">
+	{JSON.stringify({
+		"@context": "https://schema.org",
+		"@type": "Organization",
+		"name": siteName,
+		"url": canonicalUrl,
+		"logo": "/logo/logo-h-transp.png"
+	})}
+	</script>
 
 	<script>
 	  // IntersectionObserver para revelar elementos al hacer scroll

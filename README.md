@@ -6,6 +6,7 @@ Proyecto frontend construido con Astro 5 y TailwindCSS 4, con fuentes personaliz
 - Astro `^5.x`
 - TailwindCSS `^4.x`
 - Vite (por Astro)
+- Gestor de paquetes: **pnpm** `^11.x`
 
 **Características clave**
 - Fuentes personalizadas: `Work Sans` (primaria) y `Geist Mono` (secundaria) integradas en `src/styles/global.css`.
@@ -43,6 +44,10 @@ Proyecto frontend construido con Astro 5 y TailwindCSS 4, con fuentes personaliz
 │   │   └── index.astro
 │   └── styles/
 │       └── global.css
+├── .vscode/
+│   └── settings.json
+├── pnpm-workspace.yaml
+├── pnpm-lock.yaml
 ├── package.json
 └── astro.config.mjs
 ```
@@ -89,10 +94,10 @@ Accesibilidad:
 
 ## Scripts de desarrollo
 
-- Instalar dependencias: `npm install`
-- Desarrollo: `npm run dev` (abre `http://localhost:4321`)
-- Build: `npm run build`
-- Preview del build: `npm run preview`
+- Instalar dependencias: `pnpm install`
+- Desarrollo: `pnpm dev` (abre `http://localhost:4321`)
+- Build: `pnpm build`
+- Preview del build: `pnpm preview`
 
 ## Buenas prácticas
 
@@ -120,9 +125,9 @@ Accesibilidad:
 
 ## Build y Deploy
 
-- Desarrollo: `npm run dev`
-- Build: `npm run build`
-- Preview: `npm run preview`
+- Desarrollo: `pnpm dev`
+- Build: `pnpm build`
+- Preview: `pnpm preview`
 - Adaptador: `@astrojs/cloudflare` para funciones/SSR (requerido por `src/pages/api/contact.ts`).
 
 ### Envío de correo (Resend recomendado)
@@ -135,11 +140,17 @@ Accesibilidad:
 
 ### Cloudflare Pages
 - Framework preset: Astro
-- Build command: `npm run build`
+- Build command: `pnpm build`
 - Output directory: `dist`
 - Node Version: `20`
+- Node Version: `20` (o superior)
 - Pages Functions habilitadas.
 - Variables de entorno: configurar `RESEND_API_KEY`, `RESEND_FROM`, `CONTACT_TO` en Pages > Settings > Environment Variables.
+- Variables de entorno (en Pages > Settings > Environment Variables):
+  - `PNPM_VERSION`: `11` (o la versión correspondiente instalada)
+  - `RESEND_API_KEY`: clave secreta de API de Resend
+  - `RESEND_FROM`: remitente verificado
+  - `CONTACT_TO`: buzón receptor de mensajes
 
 Nota: Cloudflare Workers no soporta conexiones SMTP directas. Para producción, considera usar un proveedor con API HTTP (Resend, SendGrid, Mailgun) en lugar de `nodemailer`.
 
